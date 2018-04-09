@@ -2,7 +2,7 @@
 
 ## Abstruct
 RoboRecipe generate Assembly instructions automatically.  
-See [Generated html file](test1.html).
+See [Generated html file](https://eriac.github.io/roborecipe/).
 
 
 ## how to use
@@ -13,9 +13,9 @@ $ python make_html.py
 
 ## files
 - make_html.py  
-htmlファイルを作成するプログラムです。
+htmlファイル(index.html)を作成するプログラムです。
 - make_image.py  
-gif画像を作成するプログラムです。
+gif画像(image/)を作成するプログラムです。
 - stl_load.py  
 stlファイルを読み込むためのライブラリです。
 - xml_load.py  
