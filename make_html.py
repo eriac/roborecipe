@@ -95,7 +95,7 @@ def make_html(name):
 	#print(xml1.assembly_list)
 	#print(xml1.quantity_dict)
 	#print(xml1.views_list)
-	start_html("test1.html")
+	start_html("index.html")
 	f.write("<h1>Parts List</h1>")
 	parts_list_html(xml1)
 	f.write('<Hr Size="5" Color="black">')
