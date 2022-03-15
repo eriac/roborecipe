@@ -140,7 +140,7 @@ class MetaPackage:
 			return None
 		return pkg.get(comp_name)
 
-LIBRARIES_DIR = os.getcwd() + '/libraries'
+LIBRARIES_DIR = os.getcwd() + '/sample'
 
 def get_sub():
 	print(LIBRARIES_DIR)
