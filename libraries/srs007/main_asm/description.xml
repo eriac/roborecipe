@@ -1,0 +1,18 @@
+<assembly>
+    <name>main_asm</name>
+    <descrption>
+        assembly
+    </descrption>
+    <list>
+        <item rank="0">
+            <pkg>srs007</pkg>
+            <component>base_asm</component>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </item>
+        <item rank="1">
+            <pkg>srs007</pkg>
+            <component>base_asm</component>
+            <origin xyz="-31 0 0" rpy="0 0 0"/>
+        </item>
+    </list>
+</assembly>

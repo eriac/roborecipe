@@ -1,0 +1,23 @@
+<assembly>
+    <name>base_asm</name>
+    <descrption>
+        assembly
+    </descrption>
+    <list>
+        <item rank="0">
+            <pkg>iso_screw_m3</pkg>
+            <component>pan_12</component>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </item>
+        <item rank="1">
+            <pkg>iso_screw_m3</pkg>
+            <component>pan_12</component>
+            <origin xyz="-31 0 0" rpy="0 0 0"/>
+        </item>
+        <item rank="2">
+            <pkg>pololu</pkg>
+            <component>4691_37mm_motor</component>
+            <origin xyz="-31 0 0" rpy="0 0 0"/>
+        </item>
+    </list>
+</assembly>
