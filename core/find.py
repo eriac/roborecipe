@@ -5,10 +5,11 @@ from glob import glob
 import xml.etree.ElementTree as ET
 
 class Component:
-	def __init__(self, path):
+	def __init__(self, path, package):
 		self.name = ""
 		self.dir = ""
 		self.tree = None
+		self.package = package
 
 		tree = ET.parse(path+'description.xml')
 		root = tree.getroot()
@@ -21,8 +22,8 @@ class Component:
 		print(prefix + "name: " + self.name)
 
 class Part(Component):
-	def __init__(self, path):
-		super().__init__(path)
+	def __init__(self, path, package):
+		super().__init__(path, package)
 
 	def print(self, prefix):
 		print(prefix + "part name: " + self.name)
@@ -46,8 +47,8 @@ class AsmItem:
 		print(prefix+" "+self.pkg_name+" "+self.component_name)
 
 class Assembly(Component):
-	def __init__(self, path):
-		super().__init__(path)
+	def __init__(self, path, package):
+		super().__init__(path, package)
 		self.list = []
 
 		# get list
@@ -88,10 +89,10 @@ class Package:
 				comp_type = root.tag
 				print("sub", comp_type)
 				if comp_type == "part":
-					part_class = Part(p)
+					part_class = Part(p, self)
 					self.part_list.append(part_class)
 				elif comp_type == "assembly":
-					part_class = Assembly(p)
+					part_class = Assembly(p, self)
 					self.part_list.append(part_class)
 
 	def print(self):
@@ -173,7 +174,7 @@ if __name__ == '__main__':
 
 	print("##### list #####")
 	for d in part_dict:
-		print(d.name + " " + str(part_dict[d]))
+		print(d.package.name +"/"+ d.name + " " + str(part_dict[d]))
 
 	# print(part_dict)
 	
