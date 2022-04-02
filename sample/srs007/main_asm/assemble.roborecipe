@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <assembly>
     <name>main_asm</name>
     <descrption>
@@ -5,12 +6,12 @@
     </descrption>
     <list>
         <item rank="0">
-            <pkg>srs007</pkg>
+            <package>srs007</package>
             <component>base_asm</component>
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </item>
         <item rank="1">
-            <pkg>srs007</pkg>
+            <package>srs007</package>
             <component>base_asm</component>
             <origin xyz="-31 0 0" rpy="0 0 0"/>
         </item>

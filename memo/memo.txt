@@ -1,0 +1,13 @@
+# libraries
+## argparse
+* -d target_directory
+* -o output_directory
+* command
+    * list
+    * tree
+    * generate
+    * show
+
+## pyinstaller
+
+https://kazuhira-r.hatenablog.com/entry/2019/04/25/002033
