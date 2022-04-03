@@ -64,6 +64,42 @@ def print_component_tree(component_list, pkg_name, comp_name):
     #         spaces = "  " * len(stack)
     #         print(spaces + component.getFullName())
 
+def get_target_component_tree(component_list, target_component, level):
+    spaces = "  " * level
+    # print("#" + spaces + target_component.getFullName())
+
+    part_list = []
+    part_list.append(target_component)
+    if type(target_component) == parse.Assembly:
+        for i in target_component.component_list:
+            component = get_component(component_list, i.package_name, i.component_name)
+            if component is None:
+                print(i.package_name + " " + i.component_name + " is None")
+                continue
+            part_list.extend(get_target_component_tree(component_list, component, level+1))
+    
+    return part_list
+
+
+def print_component_quantity(component_list, pkg_name, comp_name):
+    root_component = get_component(component_list, pkg_name, comp_name)
+    if root_component is None:
+        print(pkg_name + " " + comp_name + " is None")
+    part_list = get_target_component_tree(component_list, root_component, 0)
+
+    quantity_dir = {}
+    for p in part_list:
+        if (p in quantity_dir):
+            quantity_dir[p] = quantity_dir[p] + 1
+        else:
+            quantity_dir[p] = 1
+
+    for i in quantity_dir:
+        component = i
+        quantity = quantity_dir[i]
+        print(component.getFullName() + " " + str(quantity))
+
+
 def get_edge_list(component_list, graph, component):
     if type(component) == parse.Assembly:
         for c in component.component_list:
@@ -138,6 +174,15 @@ if __name__ == '__main__':
         pkg_name = args.option[0]
         comp_name = args.option[1]
         print_component_tree(component_list, pkg_name, comp_name)
+
+    elif args.command == "quantity":
+        print("### quantity ###")
+        if len(args.option) != 2:
+            print("tree must be 2 option")
+            exit()
+        pkg_name = args.option[0]
+        comp_name = args.option[1]
+        print_component_quantity(component_list, pkg_name, comp_name)
 
     elif args.command == "order":
         print("### order ###")
