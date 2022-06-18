@@ -9,7 +9,7 @@ import sys
 import networkx as nx
 
 # lib
-import parse
+from roborecipe import parse
 
 def getTargetDirectory(target):
     output = pathlib.Path(target).resolve()
@@ -127,7 +127,7 @@ def get_quantity_dir(component_list, pkg_name, comp_name):
     if root_component is None:
         print(pkg_name + " " + comp_name + " is None")
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("command", help="sub command (list/tree/generate)", type=str)
@@ -197,3 +197,6 @@ if __name__ == '__main__':
 
     else:
         print("command error")
+
+if __name__ == '__main__':
+    main()

@@ -1,3 +1,4 @@
+.gitignore
 README.md
 requirements.txt
 setup.py
@@ -36,11 +37,18 @@ old_resources/stl_load.py
 old_resources/stl_load.pyc
 old_resources/xml_load.py
 old_resources/xml_load.pyc
+roborecipe/ImageGenerator.py
+roborecipe/ImageGenerator_back.py
 roborecipe/__init__.py
 roborecipe/__main__.py
+roborecipe/gl_test.py
 roborecipe/graph.py
+roborecipe/html_generator.py
 roborecipe/parse.py
 roborecipe/roborecipe.py
+roborecipe/stl_load.py
+roborecipe/test_part_.gif
+roborecipe/xml_load.py
 roborecipe.egg-info/PKG-INFO
 roborecipe.egg-info/SOURCES.txt
 roborecipe.egg-info/dependency_links.txt
@@ -50,6 +58,7 @@ roborecipe.egg-info/top_level.txt
 roborecipe/__pycache__/__init__.cpython-38.pyc
 roborecipe/__pycache__/__main__.cpython-38.pyc
 roborecipe/__pycache__/parse.cpython-38.pyc
+sample/cube100.stl
 sample/iso_screw_m3/package.xml
 sample/iso_screw_m3/pan_12/part.roborecipe
 sample/pololu/package.xml

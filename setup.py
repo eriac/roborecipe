@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="roborecipe", # Replace with your own username
+    name="roborecipe",
     version="0.0.1",
     install_requires=[
         "requests",
