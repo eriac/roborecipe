@@ -6,8 +6,10 @@ import math
 
 from xml_load import *
 
+from jinja2 import *
+
 class HtmlGenerator:
-    __init__(self):
+    def __init__(self):
         None
 
 
@@ -86,25 +88,25 @@ def assemble_list_html(xml1):
 
 		f.write('<Hr Color="black">')
 
-def make_html(name):
-	xml1=xml_load(name)
-	#print(xml1.parts_list)
-	#print(xml1.model_dict)
-	#print(xml1.assembly_list)
-	#print(xml1.quantity_dict)
-	#print(xml1.views_list)
-	start_html("index.html")
-	f.write("<h1>Parts List</h1>")
-	parts_list_html(xml1)
-	f.write('<Hr Size="5" Color="black">')
-	f.write("<h1>Assemble List</h1>")
-	f.write('<Hr Color="black">')
-	assemble_list_html(xml1)
+# def make_html(name):
+# 	xml1=xml_load(name)
+# 	#print(xml1.parts_list)
+# 	#print(xml1.model_dict)
+# 	#print(xml1.assembly_list)
+# 	#print(xml1.quantity_dict)
+# 	#print(xml1.views_list)
+# 	start_html("index.html")
+# 	f.write("<h1>Parts List</h1>")
+# 	parts_list_html(xml1)
+# 	f.write('<Hr Size="5" Color="black">')
+# 	f.write("<h1>Assemble List</h1>")
+# 	f.write('<Hr Color="black">')
+# 	assemble_list_html(xml1)
 
 
-	end_html()
+# 	end_html()
 
-make_html("data.xml")
+# make_html("data.xml")
 
 
 
