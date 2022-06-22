@@ -51,3 +51,26 @@ class DataAssembly(DataComponent):
 		super().__init__(pkg, type, pkg_path, cmp_path)
 		self.initial_char = "A"
 		self.step_list = []
+
+class Point:
+	def __init__(self, x=0.0, y=0.0, z=0.0):
+		self.x = x
+		self.y = y
+		self.z = z
+	def __add__(self, other):
+		p =Point()
+		p.x = self.x + other.x
+		p.y = self.y + other.y
+		p.z = self.z + other.z
+		return p
+
+class Quaternion:
+	def __init__(self, roll=0.0, pitch=0.0, yaw=0.0):
+		self.roll = roll
+		self.pitch = pitch
+		self.yaw = yaw
+
+class Transform:
+	def __init__(self, x=0.0, y=0.0, z=0.0, roll=0, pitch=0, yaw=0):
+		self.position = Point(x, y, z)
+		self.rotation = Quaternion(roll, pitch, yaw)

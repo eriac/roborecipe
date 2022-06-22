@@ -5,15 +5,18 @@ import glob
 class DirectorySearch:
     def __init__(self, root_path):
         target_directory = pathlib.Path(root_path).resolve()
-        pkg_list = self._get_package_list(target_directory)
+        self.pkg_list = self._get_package_list(target_directory)
 
         self.component_list = []
-        for p in pkg_list:
+        for p in self.pkg_list:
             for c in self._get_component_list(p):
                 self.component_list.append([p,c])
 
-    def getFilePathList(self):
+    def getComponentPathPairList(self):
         return self.component_list
+
+    def getPackagePathList(self):
+        return self.pkg_list
 
     def _get_package_list(self, target_directory):
         return glob.glob(str(target_directory) + '/*/package.xml', recursive = True)
@@ -24,4 +27,4 @@ class DirectorySearch:
 
 if __name__ == '__main__':
     ds = DirectorySearch('../sample')
-    print(ds.getFilePathList())
+    print(ds.getComponentPathPairList())

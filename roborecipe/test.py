@@ -13,7 +13,7 @@ if __name__ == '__main__':
 	# ]
 
 	ds = DirectorySearch('../sample')
-	path_pair_list = ds.getFilePathList()
+	path_pair_list = ds.getComponentPathPairList()
 
 	component_list = ComponentListParser(path_pair_list).getList()
 	# for c in component_list:

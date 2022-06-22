@@ -11,10 +11,59 @@ import networkx as nx
 # lib
 from roborecipe import parse
 
+from XmlParser import *
+from TreeAnalyzer import *
+from DirectorySearch import *
+from HtmlGenerator import *
+
 def getTargetDirectory(target):
-    output = pathlib.Path(target).resolve()
+    if target is None:
+        output = pathlib.Path('').resolve()
+    else:
+        output = pathlib.Path(str(target)).resolve()
     return output
 
+def generateInstruction(target_directory,output_directory, pkg_name, type_name):
+    os.makedirs(output_directory, exist_ok=True)
+
+    ds = DirectorySearch(target_directory)
+    path_pair_list = ds.getComponentPathPairList()
+    component_list = ComponentListParser(path_pair_list).getList()
+    ta = TreeAnalyzer(component_list, ComponentIdentifier(pkg_name, type_name))
+
+    html_generator = HtmlGenerator()
+    html_generator.template_path = 'templates/index.html'
+    html_generator.title = ComponentIdentifier(pkg_name, type_name).getName()
+
+    ## part list
+    cl = ta.getQuantityList()
+    for comp in cl:
+        if type(comp) is DataPart:
+            print(comp.id.getName(), cl[comp])
+            p1 = HtmlParchageItem()
+            p1.id = comp.id
+            p1.quantity = cl[comp]
+            html_generator.part_list.append(p1)
+
+    ## asm list
+    dl = ta.getDependOrderList()
+    for comp in dl:
+        if type(comp) is not DataAssembly:
+            continue
+        a1 = HtmlAssemblyItem()
+        a1.name = comp.id.getName()
+        a1.quantity = cl[comp]
+        seq_no = 1
+        for s in comp.step_list:
+            s1 = HtmlAssemblyStep()
+            s1.seq_no = seq_no
+            seq_no += 1
+            for child in s.child_list:
+                s1.component_list.append(HtmlComponentItem(child.id.pkg_name, child.id.type_name, 1))
+            a1.step_list.append(s1)
+        html_generator.assembly_list.append(a1) 
+
+    html_generator.generate(str(output_directory)+"/g_index.html")
 
 def print_package_list(package_list):
     for p in package_list:
@@ -130,70 +179,88 @@ def get_quantity_dir(component_list, pkg_name, comp_name):
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("command", help="sub command (list/tree/generate)", type=str)
+    parser.add_argument("command", help="sub command (list/generate)", type=str)
     parser.add_argument('option', nargs='*', default="")
     parser.add_argument("-d", "--directory", help="target directory")
     parser.add_argument("-o", "--output", help="output directory")
     args = parser.parse_args()
 
     target_directory = getTargetDirectory(args.directory)
-    
-    # get package list
-    package_list = parse.get_package_list(str(target_directory))
+    print('target directory: ' + str(target_directory))
+    output_directory = getTargetDirectory(args.output)
+    print('target directory: ' + str(output_directory))
 
-    # get component list
-    component_list = []
-    for p in package_list:
-        component_list.extend(parse.get_component_list(p))
+
+    # # get package list
+    # package_list = parse.get_package_list(str(target_directory))
+
+    # # get component list
+    # component_list = []
+    # for p in package_list:
+    #     component_list.extend(parse.get_component_list(p))
 
     if args.command == "list":
+        ds = DirectorySearch(target_directory)
         print("### package ###")
-        print_package_list(package_list)
+        for p in ds.getPackagePathList():
+            print(p)
         print("### component ###")
-        print_component_list(component_list)
-    elif args.command == "show":
-        print("### show ###")
+        for c in ds.getComponentPathPairList():
+            print(c[1])
+
+    elif args.command == "generate":
+        print("### generate ###")
         if len(args.option) != 2:
             print("tree must be 2 option")
             exit()
         pkg_name = args.option[0]
-        comp_name = args.option[1]
-        comp = get_component(component_list, pkg_name, comp_name)
-        if comp is None:
-            print("not found " + pkg_name + "/" + comp_name)
-            exit()
+        type_name = args.option[1]
+        generateInstruction(target_directory,output_directory, pkg_name, type_name)
+
+    # elif args.command == "show":
+    #     print("### show ###")
+    #     if len(args.option) != 2:
+    #         print("tree must be 2 option")
+    #         exit()
+    #     pkg_name = args.option[0]
+    #     comp_name = args.option[1]
+    #     comp = get_component(component_list, pkg_name, comp_name)
+    #     if comp is None:
+    #         print("not found " + pkg_name + "/" + comp_name)
+    #         exit()
         
-        show_msg = comp.show()
-        print(show_msg)
+    #     show_msg = comp.show()
+    #     print(show_msg)
 
-    elif args.command == "tree":
-        print("### tree ###")
-        if len(args.option) != 2:
-            print("tree must be 2 option")
-            exit()
-        pkg_name = args.option[0]
-        comp_name = args.option[1]
-        print_component_tree(component_list, pkg_name, comp_name)
 
-    elif args.command == "quantity":
-        print("### quantity ###")
-        if len(args.option) != 2:
-            print("tree must be 2 option")
-            exit()
-        pkg_name = args.option[0]
-        comp_name = args.option[1]
-        print_component_quantity(component_list, pkg_name, comp_name)
+    # elif args.command == "tree":
+    #     print("### tree ###")
+    #     if len(args.option) != 2:
+    #         print("tree must be 2 option")
+    #         exit()
+    #     pkg_name = args.option[0]
+    #     comp_name = args.option[1]
+    #     print_component_tree(component_list, pkg_name, comp_name)
 
-    elif args.command == "order":
-        print("### order ###")
-        if len(args.option) != 2:
-            print("order must be 2 option")
-            exit()
-        pkg_name = args.option[0]
-        comp_name = args.option[1]
-        depend_list = get_depend_list(component_list, pkg_name, comp_name)
-        for c in depend_list:
-            print(c.getFullName())
+    # elif args.command == "quantity":
+    #     print("### quantity ###")
+    #     if len(args.option) != 2:
+    #         print("tree must be 2 option")
+    #         exit()
+    #     pkg_name = args.option[0]
+    #     comp_name = args.option[1]
+    #     print_component_quantity(component_list, pkg_name, comp_name)
+
+    # elif args.command == "order":
+    #     print("### order ###")
+    #     if len(args.option) != 2:
+    #         print("order must be 2 option")
+    #         exit()
+    #     pkg_name = args.option[0]
+    #     comp_name = args.option[1]
+    #     depend_list = get_depend_list(component_list, pkg_name, comp_name)
+    #     for c in depend_list:
+    #         print(c.getFullName())
 
     else:
         print("command error")
