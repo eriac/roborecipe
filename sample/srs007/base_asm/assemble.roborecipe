@@ -4,24 +4,21 @@
     <descrption>
         assembly
     </descrption>
-    <list>
-        <item rank="0">
-            <package>iso_screw_m3</package>
-            <component>pan_12</component>
+    <step>
+        <component pkg="iso_screw_m3" type="pan_12">
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <move xyz="0 0 0"/>
-        </item>
-        <item rank="1">
-            <package>iso_screw_m3</package>
-            <component>pan_12</component>
+        </component>
+        <component pkg="iso_screw_m3" type="pan_12">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <move xyz="0 0 0"/>
+        </component>
+    </step>
+
+    <step>
+        <component pkg="pololu" type="4691_37mm_motor">
             <origin xyz="-31 0 0" rpy="0 0 0"/>
             <move xyz="0 0 0"/>
-        </item>
-        <item rank="2">
-            <package>pololu</package>
-            <component>4691_37mm_motor</component>
-            <origin xyz="-31 0 0" rpy="0 0 0"/>
-            <move xyz="0 0 0"/>
-        </item>
-    </list>
+        </component>
+    </step>
 </assembly>

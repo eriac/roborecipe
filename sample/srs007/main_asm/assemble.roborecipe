@@ -4,16 +4,16 @@
     <descrption>
         assembly
     </descrption>
-    <list>
-        <item rank="0">
-            <package>srs007</package>
-            <component>base_asm</component>
+    <step>
+        <component pkg="srs007" type="base_asm">
             <origin xyz="0 0 0" rpy="0 0 0"/>
-        </item>
-        <item rank="1">
-            <package>srs007</package>
-            <component>base_asm</component>
+            <move xyz="0 0 0"/>
+        </component>
+    </step>
+    <step>
+        <component pkg="srs007" type="base_asm">
             <origin xyz="-31 0 0" rpy="0 0 0"/>
-        </item>
-    </list>
+            <move xyz="0 0 0"/>
+        </component>
+    </step>
 </assembly>

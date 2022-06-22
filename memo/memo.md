@@ -93,4 +93,12 @@ instruction
 * data_process
 * image_generator
 * html_generator
-* 
+
+# activity
+
+```plantuml
+start
+:directory search;
+:parse component;
+end
+```
