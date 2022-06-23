@@ -6,13 +6,13 @@
     </descrption>
     <step>
         <component pkg="srs007" type="base_asm">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="1 2 3" rpy="0 0 0"/>
             <move xyz="0 0 0"/>
         </component>
     </step>
     <step>
         <component pkg="srs007" type="base_asm">
-            <origin xyz="-31 0 0" rpy="0 0 0"/>
+            <origin xyz="11 12 13" rpy="0 0 0"/>
             <move xyz="0 0 0"/>
         </component>
     </step>

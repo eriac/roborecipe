@@ -57,3 +57,42 @@ class TreeAnalyzer:
         top_comp = self._getItemFromComponentList(self.top_assembly_id)
         T = nx.dfs_tree(graph, source=top_comp)
         return list(reversed(list(T)))  
+
+class ItemWithTransformList:
+    def __init__(self, component, transform_list=[]):
+        self.component = component
+        self.transform_list = transform_list
+    def AddParentTransform(self, transform):
+        self.transform_list.insert(0, transform)
+    def GetWholeTransform(self):
+        output = Transform()
+        for t in self.transform_list:
+            output = output * t
+        return output
+
+class RenderTree:
+    def __init__(self, component_list, depend_list):
+        self.component_list = component_list
+        self.depend_list = depend_list
+        self.iwtl_list_dict = {}
+        for comp in depend_list:
+            self.iwtl_list_dict[comp] = self._ExpandComponent(comp)
+
+    def GetItemListWithTransform(self, target_id):
+        for comp in self.iwtl_list_dict:
+            if comp.id == target_id:
+                return self.iwtl_list_dict[comp]
+
+    def _ExpandComponent(self, component):
+        output_list = []
+        if type(component) is DataPart:
+            output_list.append(ItemWithTransformList(component, [Transform()]))
+        elif type(component) == DataAssembly:
+            for s in component.step_list:
+                for c in s.child_list:
+                    child_item_list = self.GetItemListWithTransform(c.id)
+                    for ci in child_item_list:
+                        ci.AddParentTransform(c.transform)
+                        output_list.append(ci)
+        return output_list
+

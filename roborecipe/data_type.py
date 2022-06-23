@@ -12,6 +12,46 @@ class ComponentIdentifier:
 			return NotImplemented
 		return self.pkg_name == other.pkg_name and self.type_name == other.type_name    
 
+# transform
+class Point:
+	def __init__(self, x=0.0, y=0.0, z=0.0):
+		self.x = x
+		self.y = y
+		self.z = z
+	def __add__(self, other):
+		p =Point()
+		p.x = self.x + other.x
+		p.y = self.y + other.y
+		p.z = self.z + other.z
+		return p
+
+	def __repr__(self) -> str:
+		return "("+str(self.x)+","+str(self.y)+","+str(self.z)+")"
+
+class Quaternion:
+	def __init__(self, roll=0.0, pitch=0.0, yaw=0.0):
+		self.roll = roll
+		self.pitch = pitch
+		self.yaw = yaw
+
+	def __repr__(self) -> str:
+		return "("+str(self.roll)+","+str(self.pitch)+","+str(self.yaw)+")"
+
+class Transform:
+	def __init__(self, x=0.0, y=0.0, z=0.0, roll=0, pitch=0, yaw=0):
+		self.position = Point(x, y, z)
+		self.rotation = Quaternion(roll, pitch, yaw)
+
+	def __mul__(self, other):
+		output = Transform()
+		output.position = self.position + other.position
+		output.rotation = self.rotation
+		return output
+
+	def __repr__(self) -> str:
+		return "tf " + str(self.position) + " " + str(self.rotation)
+
+
 # component internal data
 class DataComponent:
 	def __init__(self, pkg="unknown", type="unknown", pkg_path="", cmp_path=""):
@@ -33,8 +73,8 @@ class DataPart(DataComponent):
 class DataAssemblyStepChild:
 	def __init__(self):
 		self.id = ComponentIdentifier()
-		self.position = [0,0,0]
-		self.move = [0,0,0]
+		self.transform = Transform()
+		self.move = Point()
 
 class DataAssemblyView:
 	def __init__(self):
@@ -52,25 +92,3 @@ class DataAssembly(DataComponent):
 		self.initial_char = "A"
 		self.step_list = []
 
-class Point:
-	def __init__(self, x=0.0, y=0.0, z=0.0):
-		self.x = x
-		self.y = y
-		self.z = z
-	def __add__(self, other):
-		p =Point()
-		p.x = self.x + other.x
-		p.y = self.y + other.y
-		p.z = self.z + other.z
-		return p
-
-class Quaternion:
-	def __init__(self, roll=0.0, pitch=0.0, yaw=0.0):
-		self.roll = roll
-		self.pitch = pitch
-		self.yaw = yaw
-
-class Transform:
-	def __init__(self, x=0.0, y=0.0, z=0.0, roll=0, pitch=0, yaw=0):
-		self.position = Point(x, y, z)
-		self.rotation = Quaternion(roll, pitch, yaw)

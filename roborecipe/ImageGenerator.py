@@ -8,7 +8,7 @@ class PartSource:
     def __init__(self):
         self.triangles = None
         self.position = [0,0,0]
-        self.rotation = [0,0,0,0]
+        self.rotation = [0,0,0]
         self.move = [0,0,0,0]
         self.color = "gray"
 
@@ -53,7 +53,6 @@ class ImageGenerator:
 
         glutDisplayFunc(self.display)
         glutReshapeFunc(self.reshape)
-        # glutTimerFunc(100, self.timerProcess, 0)
 
     def display(self):
         None
@@ -87,7 +86,10 @@ class ImageGenerator:
             pos[0]=part.position[0]+part.move[0]*rate
             pos[1]=part.position[1]+part.move[1]*rate
             pos[2]=part.position[2]+part.move[2]*rate
-            glTranslated(pos[0], pos[1], pos[2])
+            glTranslatef(pos[0], pos[1], pos[2])
+            glRotatef( part.rotation[2], 0.0, 0.0, 1.0) #yaw
+            glRotatef( part.rotation[1], 0.0, 1.0, 0.0) #pitch
+            glRotatef( part.rotation[0], 1.0, 0.0, 0.0) #roll
 
             glBegin(GL_TRIANGLES)
             for tri in part.triangles:
@@ -116,7 +118,7 @@ class ImageGenerator:
         glViewport(0, 0, w, h)
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        gluPerspective(80, 1, 1.5, 2000)
+        gluPerspective(60, 1, 1.5, 2000)
         glMatrixMode(GL_MODELVIEW)
 
     # main process
@@ -142,35 +144,50 @@ class ImageGenerator:
 
 if __name__ == '__main__':
     from sys import argv
-    from stl_load import *
+    from roborecipe.StlLoader import *
 
     p1 = PartSource()
-    stl1 = stl_load()
-    stl1.load_stl("/home/ubuntu/roborecipe/old_resources/Laser1.stl")
-    p1.triangles = stl1.get_triangles()
+    p1.triangles = StlLoader("/home/ubuntu/roborecipe/sample/rr_base_plate.stl").get_triangles()
+    p1.rotation = [0,-0,90]
 
     p2 = PartSource()
-    stl2 = stl_load()
-    stl2.load_stl("/home/ubuntu/roborecipe/old_resources/Laser2.stl")
-    p2.triangles = stl2.get_triangles()
-    p2.position = [0,0,0]
-    p2.move = [0,0,50]
+    p2.triangles = StlLoader("/home/ubuntu/roborecipe/sample/m3_spacer_20.stl").get_triangles()
+    p2.position = [10,20,4]
+    p2.rotation = [0,0,0]
+    p2.move = [0,0,20]
+
+    p3 = PartSource()
+    p3.triangles = StlLoader("/home/ubuntu/roborecipe/sample/m3_spacer_20.stl").get_triangles()
+    p3.position = [-10,20,4]
+    p3.rotation = [0,0,0]
+    p3.move = [0,0,20]
+
+    p4 = PartSource()
+    p4.triangles = StlLoader("/home/ubuntu/roborecipe/sample/rr_bar_plate.stl").get_triangles()
+    p4.position = [0,20,24]
+    p4.rotation = [0,0,90]
+    p4.move = [0,0,30]
 
     view1 = ViewSource()
     view1.output_filepath = "/home/ubuntu/roborecipe/out.png"
     view1.part_list.append(p1)
     view1.part_list.append(p2)
-    view1.look_from = [200,0,100]
-    view1.look_at = [0,0,0]
+    view1.part_list.append(p3)
+    view1.part_list.append(p4)
+    view1.look_from = [70,0,90]
+    view1.look_at = [0,0,10]
     view1.step=0
 
     view2 = ViewSource()
     view2.output_filepath = "/home/ubuntu/roborecipe/out.gif"
     view2.part_list.append(p1)
     view2.part_list.append(p2)
-    view2.look_from = [200,0,100]
-    view2.look_at = [0,0,0]
+    view2.part_list.append(p3)
+    view2.part_list.append(p4)
+    view2.look_from = [70,0,90]
+    view2.look_at = [0,0,10]
     view2.step=10
 
     ig = ImageGenerator(sys.argv)
-    ig.renderViewList([view1, view2])
+    # ig.renderViewList([view1, view2])
+    ig.renderViewList([view2])

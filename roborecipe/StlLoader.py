@@ -46,11 +46,22 @@ class createtriangle:
     def cross_product(self,p1,p2):
         return (p1[1]*p2[2]-p2[1]*p1[2]) , (p1[2]*p2[0])-(p2[2]*p1[0]) , (p1[0]*p2[1])-(p2[0]*p1[1])
 
-class stl_load:
-
-    def __init__(self):
+class StlLoader:
+    #load stl file detects if the file is a text file or binary file
+    def __init__(self, filename):
         self.model=[]
-      
+        fp=open(filename,'rb')
+        h=fp.read(80)
+        type=h[0:5]
+        fp.close()
+
+        if type=='solid':
+            print("reading text file"+str(filename))
+            self.load_text_stl(filename)
+        else:
+            print("reading binary stl file "+str(filename))
+            self.load_binary_stl(filename)
+
     #return the faces of the triangles
     def get_triangles(self):
         return self.model
@@ -70,21 +81,6 @@ class stl_load:
             glVertex([tri.points[1].x,tri.points[1].y,tri.points[1].z])
             glVertex([tri.points[2].x,tri.points[2].y,tri.points[2].z])
         glEnd()
-
-    #load stl file detects if the file is a text file or binary file
-    def load_stl(self,filename):
-        #read start of file to determine if its a binay stl file or a ascii stl file
-        fp=open(filename,'rb')
-        h=fp.read(80)
-        type=h[0:5]
-        fp.close()
-
-        if type=='solid':
-            print("reading text file"+str(filename))
-            self.load_text_stl(filename)
-        else:
-            print("reading binary stl file "+str(filename))
-            self.load_binary_stl(filename)
   
     #read text stl match keywords to grab the points to build the model
     def load_text_stl(self,filename):

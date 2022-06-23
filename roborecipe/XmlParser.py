@@ -8,10 +8,13 @@ from data_type import *
 
 class PackageParser:
 	def __init__(self, path):
+		self.path = path
 		tree = ET.parse(str(pathlib.Path(path).resolve()))
 		self.root = tree.getroot()
 	def getName(self):
 		return self.root.find("name").text
+	def getDirPath(self):
+		return str(pathlib.Path(self.path+"/..").resolve())
 
 class PartConverter:
     def __init__(self):
@@ -19,22 +22,24 @@ class PartConverter:
 
 class ComponentParser:
 	def __init__(self, pkg_path, component_path):
-		pkg_name = PackageParser(pkg_path).getName()
+		pp = PackageParser(pkg_path)
+		pkg_name = pp.getName()
+		pkg_dir = pp.getDirPath()
 		tree = ET.parse(str(pathlib.Path(component_path).resolve()))
 		root = tree.getroot()
 
 		if root.tag == 'part':
-			self.component = self.ParsePart(pkg_name, root)
+			self.component = self.ParsePart(pkg_name, pkg_dir, root)
 		elif root.tag == 'assembly':
 			self.component = self.ParseAssembly(pkg_name, root)
 		else:
 			self.component = DataComponent()
 
-	def ParsePart(self, pkg_name, root):
+	def ParsePart(self, pkg_name, pkg_dir, root):
 		component_name = root.find("name").text
 
-		if root.find("stf_file"):
-			stl_file_name = root.find("stf_file").text
+		if root.find("stl_file") is not None:
+			stl_file_name = pkg_dir+"/"+root.find("stl_file").text
 		else:
 			stl_file_name = ""
 
@@ -56,9 +61,21 @@ class ComponentParser:
 			for c in s.iter("component"):
 				child = DataAssemblyStepChild()
 				child.id = ComponentIdentifier(c.attrib["pkg"], c.attrib["type"])
+				child.transform = self.GetTransform(c)
+				child.move = self.GetMove(c)
+				
 				step.child_list.append(child)
 			asm.step_list.append(step)
 		return asm
+
+	def GetTransform(self, element):
+		xyz = element.find("origin").attrib["xyz"].split(' ')
+		rpy = element.find("origin").attrib["rpy"].split(' ')
+		return Transform(float(xyz[0]), float(xyz[1]), float(xyz[2]), float(rpy[0]), float(rpy[1]), float(rpy[2]))
+
+	def GetMove(self, element):
+		xyz = element.find("move").attrib["xyz"].split(' ')
+		return Point(xyz[0], xyz[1], xyz[2])
 
 class ComponentListParser:
 	def __init__(self, path_pair_list):

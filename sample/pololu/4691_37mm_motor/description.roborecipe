@@ -3,6 +3,8 @@
     <name>4691_37mm_motor</name>
     <types>part</types>
     <version>0.0</version>
+    <stl_file>4691_37mm_motor/rr_base_plate.stl</stl_file>
+
     <description>
         37mm motor 24V 18.75:1
     </description>

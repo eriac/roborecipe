@@ -2,7 +2,7 @@ from OpenGL.GL   import *
 from OpenGL.GLU  import *
 from OpenGL.GLUT import *
 from sys import argv
-from stl_load import *
+from roborecipe.StlLoader import *
 
 class PartSource:
     def __init__(self):

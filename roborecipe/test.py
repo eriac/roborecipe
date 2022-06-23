@@ -3,6 +3,9 @@
 from XmlParser import *
 from TreeAnalyzer import *
 from DirectorySearch import *
+from ImageGenerator import *
+from StlLoader import *
+
 
 if __name__ == '__main__':
 	# path_pair_list = [
@@ -22,12 +25,34 @@ if __name__ == '__main__':
 	ta = TreeAnalyzer(component_list, ComponentIdentifier('srs007', 'main_asm'))
 
 	print("#### quantity ####")
-	cl = ta.getQuantityList()
-	for c in cl:
-		print(c.id.getName(), cl[c])
+	ql = ta.getQuantityList()
+	for c in ql:
+		print(c.id.getName(), ql[c])
 
 	print("#### depend order ####")
 	dl = ta.getDependOrderList()
 	for c in dl:
 		print(c.id.getName())
 
+	print("#### RenderList ####")
+	rt = RenderTree(component_list, dl)
+	list = rt.GetItemListWithTransform(dl[3].id)
+	print("#### RenderList ####")
+
+	view1 = ViewSource()
+	view1.output_filepath = "/home/ubuntu/roborecipe/out.png"
+	view1.step=0
+
+	for i in list:
+		print(i.component.id.getName())
+		print(i.component.stl_path)
+		print(i.GetWholeTransform())
+
+		p1 = PartSource()
+		p1.triangles = StlLoader(i.component.stl_path).get_triangles()
+		wtr=i.GetWholeTransform()
+		p1.position = [wtr.position.x,wtr.position.y,wtr.position.z]
+		view1.part_list.append(p1)
+
+	ig = ImageGenerator(sys.argv)
+	ig.renderViewList([view1])
