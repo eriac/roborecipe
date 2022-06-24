@@ -19,10 +19,11 @@ if __name__ == '__main__':
 	path_pair_list = ds.getComponentPathPairList()
 
 	component_list = ComponentListParser(path_pair_list).getList()
+	# print("#### component list ####")
 	# for c in component_list:
 	# 	print(c.id.getName())
 
-	ta = TreeAnalyzer(component_list, ComponentIdentifier('srs007', 'main_asm'))
+	ta = TreeAnalyzer(component_list, ComponentIdentifier('sample_project', 'side_asm'))
 
 	print("#### quantity ####")
 	ql = ta.getQuantityList()
@@ -36,12 +37,14 @@ if __name__ == '__main__':
 
 	print("#### RenderList ####")
 	rt = RenderTree(component_list, dl)
-	list = rt.GetItemListWithTransform(dl[3].id)
+	list = rt.GetItemListWithTransform(dl[-1].id)
 	print("#### RenderList ####")
 
 	view1 = ViewSource()
 	view1.output_filepath = "/home/ubuntu/roborecipe/out.png"
 	view1.step=0
+	view1.look_from = [70,0,-50]
+	view1.look_at = [0,0,-10]
 
 	for i in list:
 		print(i.component.id.getName())
