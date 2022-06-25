@@ -6,20 +6,34 @@
     </descrption>
 
     <step>
-        <component pkg="sample_project" type="base_plate">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+		<view from="70 20 30" to="0 0 0" angle="30" />
+
+        <component pkg="sample_project" type="bar_plate">
+            <origin xyz="0 0 0" rpy="0 0 90"/>
             <move xyz="0 0 0"/>
         </component>
     </step>
 
     <step>
+		<view from="70 20 30" to="0 0 0" angle="30" />
+		<view from="70 20 -30" to="0 0 0" angle="30" />
+
         <component pkg="screw_m3" type="pan_10">
-            <origin xyz="20 10 4" rpy="0 0 0"/>
+            <origin xyz="10 0 4" rpy="0 0 0"/>
+            <move xyz="0 0 15"/>
+        </component>
+        <component pkg="screw_m3" type="pan_10">
+            <origin xyz="-10 0 4" rpy="0 0 0"/>
             <move xyz="0 0 15"/>
         </component>
         <component pkg="screw_m3" type="hollow_spacer_20">
-            <origin xyz="20 10 -20" rpy="0 0 0"/>
+            <origin xyz="10 0 -20" rpy="0 0 0"/>
+            <move xyz="0 0 -10"/>
+        </component>
+        <component pkg="screw_m3" type="hollow_spacer_20">
+            <origin xyz="-10 0 -20" rpy="0 0 0"/>
             <move xyz="0 0 -10"/>
         </component>
     </step>
+
 </assembly>

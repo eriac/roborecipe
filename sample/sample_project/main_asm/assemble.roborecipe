@@ -5,15 +5,44 @@
         assembly
     </descrption>
     <step>
-        <component pkg="srs007" type="base_asm">
-            <origin xyz="1 2 3" rpy="0 0 0"/>
+		<view from="70 20 30" to="0 0 10" angle="30" />
+        <component pkg="sample_project" type="base_plate">
+            <origin xyz="0 0 0" rpy="0 0 90"/>
             <move xyz="0 0 0"/>
         </component>
     </step>
     <step>
-        <component pkg="srs007" type="base_asm">
-            <origin xyz="11 12 13" rpy="0 0 0"/>
-            <move xyz="0 0 0"/>
+		<view from="70 20 30" to="0 0 10" angle="30" />
+		<view from="70 20 -30" to="0 0 10" angle="30" />
+
+        <component pkg="sample_project" type="side_asm">
+            <origin xyz="0 20 24" rpy="0 0 0"/>
+            <move xyz="0 0 10"/>
+        </component>
+        <component pkg="screw_m3" type="pan_10">
+            <origin xyz="10 20 0" rpy="180 0 0"/>
+            <move xyz="0 0 -15"/>
+        </component>
+        <component pkg="screw_m3" type="pan_10">
+            <origin xyz="-10 20 0" rpy="180 0 0"/>
+            <move xyz="0 0 -15"/>
+        </component>
+    </step>
+    <step>
+		<view from="70 20 30" to="0 0 10" angle="30" />
+		<view from="70 20 -30" to="0 0 10" angle="30" />
+
+        <component pkg="sample_project" type="side_asm">
+            <origin xyz="0 -20 24" rpy="0 0 0"/>
+            <move xyz="0 0 10"/>
+        </component>
+        <component pkg="screw_m3" type="pan_10">
+            <origin xyz="10 -20 0" rpy="180 0 0"/>
+            <move xyz="0 0 -15"/>
+        </component>
+        <component pkg="screw_m3" type="pan_10">
+            <origin xyz="-10 -20 0" rpy="180 0 0"/>
+            <move xyz="0 0 -15"/>
         </component>
     </step>
 </assembly>

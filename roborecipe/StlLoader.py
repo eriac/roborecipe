@@ -56,10 +56,10 @@ class StlLoader:
         fp.close()
 
         if type=='solid':
-            print("reading text file"+str(filename))
+            # print("reading text file"+str(filename))
             self.load_text_stl(filename)
         else:
-            print("reading binary stl file "+str(filename))
+            # print("reading binary stl file "+str(filename))
             self.load_binary_stl(filename)
 
     #return the faces of the triangles

@@ -34,8 +34,18 @@ class Quaternion:
 		self.pitch = pitch
 		self.yaw = yaw
 
+	def __mul__(self, other): # TODO
+		output = Quaternion()
+		output.roll = self.roll + other.roll
+		output.pitch = self.pitch + other.pitch
+		output.yaw = self.yaw + other.yaw
+		return output
+
 	def __repr__(self) -> str:
 		return "("+str(self.roll)+","+str(self.pitch)+","+str(self.yaw)+")"
+
+	def getRPY(self):
+		return [self.roll, self.pitch, self.yaw]
 
 class Transform:
 	def __init__(self, x=0.0, y=0.0, z=0.0, roll=0, pitch=0, yaw=0):
@@ -45,12 +55,11 @@ class Transform:
 	def __mul__(self, other):
 		output = Transform()
 		output.position = self.position + other.position
-		output.rotation = self.rotation
+		output.rotation = self.rotation * other.rotation #TODO
 		return output
 
 	def __repr__(self) -> str:
 		return "tf " + str(self.position) + " " + str(self.rotation)
-
 
 # component internal data
 class DataComponent:

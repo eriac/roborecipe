@@ -58,13 +58,22 @@ class ComponentParser:
 		asm.id = ComponentIdentifier(pkg_name, component_name)
 		for s in root.iter("step"):
 			step = DataAssemblyStep()
+			# parse components
 			for c in s.iter("component"):
 				child = DataAssemblyStepChild()
 				child.id = ComponentIdentifier(c.attrib["pkg"], c.attrib["type"])
 				child.transform = self.GetTransform(c)
 				child.move = self.GetMove(c)
-				
 				step.child_list.append(child)
+			# parse view
+			for c in s.iter("view"):
+				look_from = c.attrib["from"].split(' ')
+				look_at = c.attrib["to"].split(' ')
+				view = DataAssemblyView()
+				view.look_at = [float(look_at[0]), float(look_at[1]), float(look_at[2])]
+				view.look_from = [float(look_from[0]), float(look_from[1]), float(look_from[2])]
+				step.view_list.append(view)
+
 			asm.step_list.append(step)
 		return asm
 
@@ -75,7 +84,7 @@ class ComponentParser:
 
 	def GetMove(self, element):
 		xyz = element.find("move").attrib["xyz"].split(' ')
-		return Point(xyz[0], xyz[1], xyz[2])
+		return Point(float(xyz[0]), float(xyz[1]), float(xyz[2]))
 
 class ComponentListParser:
 	def __init__(self, path_pair_list):

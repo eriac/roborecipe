@@ -2,6 +2,7 @@
 
 import collections
 import networkx as nx
+import copy
 
 from data_type import *
 
@@ -62,6 +63,8 @@ class ItemWithTransformList:
     def __init__(self, component, transform_list=[]):
         self.component = component
         self.transform_list = transform_list
+        self.step = 0
+        self.move = [0, 0, 0]
     def AddParentTransform(self, transform):
         self.transform_list.insert(0, transform)
     def GetWholeTransform(self):
@@ -88,11 +91,18 @@ class RenderTree:
         if type(component) is DataPart:
             output_list.append(ItemWithTransformList(component, [Transform()]))
         elif type(component) == DataAssembly:
+            step_seq_no = 0
             for s in component.step_list:
                 for c in s.child_list:
+                    print('###### data move', c.move)
                     child_item_list = self.GetItemListWithTransform(c.id)
+                    move = [c.move.x, c.move.y, c.move.z]
                     for ci in child_item_list:
-                        ci.AddParentTransform(c.transform)
-                        output_list.append(ci)
+                        new_ci = copy.deepcopy(ci)
+                        new_ci.AddParentTransform(c.transform)
+                        new_ci.step = step_seq_no
+                        new_ci.move = move
+                        output_list.append(new_ci)
+                step_seq_no += 1
         return output_list
 
