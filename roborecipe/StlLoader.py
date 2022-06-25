@@ -5,7 +5,6 @@ import os
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-
 #class for a 3d point
 class createpoint:
     def __init__(self,p,c=(1,0,0)):

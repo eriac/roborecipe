@@ -1,12 +1,9 @@
 #!/usr/bin/python3
 
-import argparse
-import os
-import pathlib
-from glob import glob
 import os
 import sys
-import networkx as nx
+import pathlib
+import argparse
 
 # lib
 from roborecipe.XmlParser import *

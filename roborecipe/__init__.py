@@ -1,15 +1,3 @@
-import requests
-import sys
+from roborecipe import *
 
-import argparse
-import os
-import pathlib
-from glob import glob
-import os
-import sys
-import networkx as nx
-
-from roborecipe import roborecipe_main
-
-def main() -> None:
-    roborecipe_main.main()
+__version__ = '0.1.0'

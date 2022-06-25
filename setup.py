@@ -1,25 +1,29 @@
 import setuptools
+import roborecipe
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="roborecipe",
-    version="0.0.1",
+    version=roborecipe.__version__,
     install_requires=[
-        "requests",
+        "PyOpenGL",
+        "jinja2",
+        "pillow",
+        "networkx",
     ],
     entry_points={
         'console_scripts': [
-            'roborecipe=roborecipe:main',
+            'roborecipe=roborecipe.roborecipe_main:main',
         ],
     },
     author="Erio.Akanuma",
     author_email="e.a@example.com",
-    description="generate robot build instraction",
+    description="generate robot build instruction from scripts",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/eriac/roborecipe",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
