@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from jinja2 import Template
-from data_type import * 
+from roborecipe.data_type import * 
 
 class HtmlParchageItem:
     def __init__(self):

@@ -4,7 +4,7 @@ import os
 from glob import glob
 import xml.etree.ElementTree as ET
 import pathlib
-from data_type import *
+from roborecipe.data_type import *
 
 class PackageParser:
 	def __init__(self, path):

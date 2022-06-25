@@ -4,7 +4,7 @@ import collections
 import networkx as nx
 import copy
 
-from data_type import *
+from roborecipe.data_type import *
 
 class TreeAnalyzer:
     def __init__(self, component_list, top_assembly_id):

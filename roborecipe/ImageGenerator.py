@@ -137,7 +137,7 @@ class ImageGenerator:
                     img = self.capture()
                     image_list.append(img)
                 image_list[0].save(view.output_filepath, save_all=True, append_images=image_list[1:], duration=100, loop=0)
-                print("write git to ", view.output_filepath)
+                print("write gif to ", view.output_filepath)
         print("finish render")
         glutLeaveMainLoop()
 

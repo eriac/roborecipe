@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 import os
-from data_type import *
-from ImageGenerator import *
-from StlLoader import *
+from roborecipe.data_type import *
+from roborecipe.ImageGenerator import *
+from roborecipe.StlLoader import *
 
 class ViewListGenerator:
 	def __init__(self, dl, rt):
@@ -62,9 +62,6 @@ if __name__ == '__main__':
 	path_pair_list = ds.getComponentPathPairList()
 
 	component_list = ComponentListParser(path_pair_list).getList()
-	# print("#### component list ####")
-	# for c in component_list:
-	# 	print(c.id.getName())
 
 	ta = TreeAnalyzer(component_list, ComponentIdentifier('sample_project', 'main_asm'))
 
@@ -85,6 +82,4 @@ if __name__ == '__main__':
 
 	ig = ImageGenerator(sys.argv)
 
-	print('aaaaaa1')
 	ig.renderViewList(render_view_list)
-	print('aaaaaa2')
