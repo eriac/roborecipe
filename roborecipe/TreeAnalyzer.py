@@ -94,7 +94,6 @@ class RenderTree:
             step_seq_no = 0
             for s in component.step_list:
                 for c in s.child_list:
-                    print('###### data move', c.move)
                     child_item_list = self.GetItemListWithTransform(c.id)
                     move = [c.move.x, c.move.y, c.move.z]
                     for ci in child_item_list:

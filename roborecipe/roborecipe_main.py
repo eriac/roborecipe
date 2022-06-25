@@ -15,6 +15,7 @@ from XmlParser import *
 from TreeAnalyzer import *
 from DirectorySearch import *
 from HtmlGenerator import *
+from ViewListGenerator import *
 
 def getTargetDirectory(target):
     if target is None:
@@ -36,13 +37,13 @@ def generateInstruction(target_directory,output_directory, pkg_name, type_name):
     html_generator.title = ComponentIdentifier(pkg_name, type_name).getName()
 
     ## part list
-    cl = ta.getQuantityList()
-    for comp in cl:
+    ql = ta.getQuantityList()
+    for comp in ql:
         if type(comp) is DataPart:
-            print(comp.id.getName(), cl[comp])
+            print(comp.id.getName(), ql[comp])
             p1 = HtmlParchageItem()
             p1.id = comp.id
-            p1.quantity = cl[comp]
+            p1.quantity = ql[comp]
             html_generator.part_list.append(p1)
 
     ## asm list
@@ -52,18 +53,29 @@ def generateInstruction(target_directory,output_directory, pkg_name, type_name):
             continue
         a1 = HtmlAssemblyItem()
         a1.name = comp.id.getName()
-        a1.quantity = cl[comp]
-        seq_no = 1
+        a1.quantity = ql[comp]
+        seq_no = 0
         for s in comp.step_list:
             s1 = HtmlAssemblyStep()
-            s1.seq_no = seq_no
-            seq_no += 1
+            s1.seq_no = seq_no+1
             for child in s.child_list:
                 s1.component_list.append(HtmlComponentItem(child.id.pkg_name, child.id.type_name, 1))
+            for view_seq_no in range(len(s.view_list)):
+                image_file = str(comp.id.pkg_name)+'/'+str(comp.id.type_name)+'/asm_'+str(seq_no)+'_'+str(view_seq_no)+'.gif'
+                print(image_file)
+                s1.image_path_list.append(image_file)
             a1.step_list.append(s1)
+            seq_no += 1
         html_generator.assembly_list.append(a1) 
 
     html_generator.generate(str(output_directory)+"/g_index.html")
+
+    ## asm image
+    rt = RenderTree(component_list, dl)
+    vlg = ViewListGenerator(dl, rt)
+    render_view_list = vlg.GetViewList(str(output_directory))
+    ig = ImageGenerator(sys.argv)
+    ig.renderViewList(render_view_list) # TODO force finish
 
 def print_package_list(package_list):
     for p in package_list:
