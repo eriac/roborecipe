@@ -9,7 +9,7 @@ roborecipe is no Python3, and target OS is Ubuntu20.4
 
 # file refference
 
-see [xml document](doc/xml_reference.md)
+see [xml document](docs/xml_reference.md)
 
 # usage
 
