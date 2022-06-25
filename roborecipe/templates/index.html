@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>{{tittle}}</title>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <h1>{{tittle}}</h1>
+        <hr>
+
+        <h1>Purchase Part</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>name</td>
+                    <td>quantity</td>
+                    <td>price</td>
+                    <td>seller</td>
+                    <td>desctiption</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in part_list %}
+                <tr>
+                    <td >{{p.id.getName()}}</td>
+                    <td >{{p.quantity}}</td>
+                    <td>155 yen</td>
+                    <td>http://afdg/dfgaf.html</td>
+                    <td>screw</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <hr>
+
+        <h1>Prepair Part</h1>
+        <hr>
+        <hr>
+
+        <h1>Assembly Part</h1>
+
+        {% for a in assembly_list %}
+        <h2>{{a.name}} x{{a.quantity}}</h2>
+
+        {% for s in a.step_list %}
+        <h3>step {{s.seq_no}}</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>name</td>
+                    <td>quantity</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in s.component_list %}
+                <tr>
+                    <td >{{c.id.getName()}}</td>
+                    <td >{{c.quantity}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% for i in s.image_path_list %}
+        <img src="{{i}}" width="500">
+        {% endfor %}
+
+        {% endfor %}
+        <hr>
+        {% endfor %}
+
+        <hr>
+        <p>powered by roborecipe</p>
+
+    </body>
+</html>

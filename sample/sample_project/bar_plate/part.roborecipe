@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<part>
+    <name>bar_plate</name>
+    <version>0.0</version>
+    <stl_file>bar_plate/rr_bar_plate.stl</stl_file>
+</part>
