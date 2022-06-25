@@ -2,27 +2,44 @@
 
 ## Abstruct
 RoboRecipe generate Assembly instructions automatically.  
-See [Generated html file](https://eriac.github.io/roborecipe/).
+See [Generated html file](https://eriac.github.io/roborecipe/sample_out).
 
+## framework
+roborecipe is no Python3, and target OS is Ubuntu20.4
+
+# file refference
+
+see [xml document](doc/xml_reference.md)
+
+# usage
+
+## how to install
+```code
+$ git clone git@github.com:eriac/roborecipe.git  
+$ cd roborecipe
+$ pip install ./ (add -e for develope mode)
+```
 
 ## how to use
-$ git clone git@github.com:eriac/roborecipe.git  
-$ cd roborecipe  
-$ python make_image.py  
-$ python make_html.py  
+```code
+$ roborecipe # dispaly help
+```
 
-## files
-- make_html.py  
-htmlファイル(index.html)を作成するプログラムです。
-- make_image.py  
-gif画像(image/)を作成するプログラムです。
-- stl_load.py  
-stlファイルを読み込むためのライブラリです。
-- xml_load.py  
-xmlのパースをするプログラム
-- data.xml  
-組み立ての構造を記述するxmlファイルです。
-- **.stl  
-部品の外形を記述しているstlファイルです。
+## get list of component with sample 
+```code
+$ roborecipe list -d ~/roborecipe/sample/ 
+### package ###
+...
+### component ###
+...
+```
 
+## generate instruction with sample
+```code
+$ roborecipe generate sample_project main_asm -d roborecipe/sample/ -o out
+```
 
+## how to uninstall
+```code
+pip uninstall roborecipe
+```

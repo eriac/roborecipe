@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+    <name>screw_m3</name>
+    <types>
+        <members>Security</members>
+        <name>Settings</name>
+    </types>
+    <version>0.0</version>
+</package>
