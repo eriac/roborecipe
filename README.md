@@ -1,21 +1,20 @@
-# roborecipe
+# Roborecipe
 
 ## Abstruct
-RoboRecipe generate Assembly instructions automatically.  
-See [Generated html file](https://eriac.github.io/roborecipe/sample_out).
+Roborecipe generate robot build instructions automatically.  
+See [Generated html file](https://eriac.github.io/roborecipe/docs/sample_out).
 
 ## framework
-roborecipe is no Python3, and target OS is Ubuntu20.4
+roborecipe is based on Ubuntu20.4 and Python3
 
-# file refference
-
-see [xml document](docs/xml_reference.md)
+# source file reference
+see [xml document](https://github.com/eriac/roborecipe/blob/master/docs/xml_reference.md)
 
 # usage
 
 ## how to install
 ```code
-$ git clone git@github.com:eriac/roborecipe.git  
+$ git clone https://github.com/eriac/roborecipe.git  
 $ cd roborecipe
 $ pip install ./ (add -e for develope mode)
 ```
