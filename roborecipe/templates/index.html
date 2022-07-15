@@ -14,8 +14,8 @@
                 <tr>
                     <td>name</td>
                     <td>quantity</td>
-                    <td>price</td>
-                    <td>seller</td>
+                    <td>unit price</td>
+                    <td>distributor</td>
                     <td>desctiption</td>
                 </tr>
             </thead>
@@ -24,9 +24,9 @@
                 <tr>
                     <td >{{p.id.getName()}}</td>
                     <td >{{p.quantity}}</td>
-                    <td>155 yen</td>
-                    <td>http://afdg/dfgaf.html</td>
-                    <td>screw</td>
+                    <td>{{p.price_value}} {{p.price_unit}}</td>
+                    <td>{{p.distributor}}</td>
+                    <td>{{p.description}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

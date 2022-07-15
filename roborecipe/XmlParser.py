@@ -43,12 +43,28 @@ class ComponentParser:
 		else:
 			stl_file_name = ""
 
+
+		if root.find("price") is not None:
+			price = float(root.find("price").text)
+		else:
+			price = 0.0
+
+		if root.find("distributor") is not None:
+			distributor = root.find("distributor").text
+		else:
+			distributor = ''
+
+		if root.find("description") is not None:
+			description = root.find("description").text
+		else:
+			description = ''
+
 		part = DataPart()
 		part.id = ComponentIdentifier(pkg_name, component_name)
-		part.price_value = 0
+		part.price_value = price
 		part.price_unit = "yen"
-		part.url = 'http:/sample.com/sample.html'
-		part.description = "description"
+		part.distributor = distributor
+		part.description = description
 		part.stl_path = stl_file_name
 		return part
 

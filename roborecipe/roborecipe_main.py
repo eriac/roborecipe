@@ -41,6 +41,12 @@ def generateInstruction(target_directory,output_directory, pkg_name, type_name):
             p1 = HtmlParchageItem()
             p1.id = comp.id
             p1.quantity = ql[comp]
+            p1.price_value = comp.price_value
+            p1.price_unit = comp.price_unit
+
+            p1.distributor = comp.distributor
+            p1.description = comp.description
+
             html_generator.part_list.append(p1)
 
     ## asm list

@@ -54,7 +54,7 @@ class Transform:
 
 	def __mul__(self, other):
 		output = Transform()
-		output.position = self.position + other.position
+		output.position = self.position + other.position #TODO
 		output.rotation = self.rotation * other.rotation #TODO
 		return output
 
@@ -74,10 +74,10 @@ class DataPart(DataComponent):
 		super().__init__(pkg, type, pkg_path, cmp_path)
 		self.initial_char = "P"
 		self.price_value = 0
-		self.price_unit = "yen"
-		self.url = 'http:/sample.com/sample.html'
-		self.description = "description"
-		self.stl_path = ""
+		self.price_unit = 'yen'
+		self.distributor = ''
+		self.description = ''
+		self.stl_path = ''
 
 class DataAssemblyStepChild:
 	def __init__(self):

@@ -7,9 +7,9 @@ class HtmlParchageItem:
         self.id = ComponentIdentifier()
         self.quantity = 0
         self.price_value = 0
-        self.price_unit = "yen"
-        self.url = 'http:/aaa.bbb'
-        self.description = "description"
+        self.price_unit = 'yen'
+        self.distributor = 'http:/aaa.bbb'
+        self.description = 'description'
 
 class HtmlComponentItem:
     def __init__(self, pkg = "unknown", type = "unknown", quantity = 0):
