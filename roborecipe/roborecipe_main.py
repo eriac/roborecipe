@@ -22,7 +22,7 @@ def getTargetDirectory(target):
 def getCurrentDirectory():
     return str(pathlib.Path(__file__+'/..').resolve())
 
-def generateInstruction(target_directory,output_directory, pkg_name, type_name):
+def generateInstruction(target_directory,output_directory, pkg_name, type_name, top_level_only):
     os.makedirs(output_directory, exist_ok=True)
 
     ds = DirectorySearch(target_directory)
@@ -74,7 +74,12 @@ def generateInstruction(target_directory,output_directory, pkg_name, type_name):
 
     ## asm image
     rt = RenderTree(component_list, dl)
-    vlg = ViewListGenerator(dl, rt)
+
+    if top_level_only:
+        vlg = ViewListGenerator([dl[-1],], rt) # render top level asm only
+    else:
+        vlg = ViewListGenerator(dl, rt)
+
     render_view_list = vlg.GetViewList(str(output_directory))
     ig = ImageGenerator(sys.argv)
     ig.renderViewList(render_view_list) # TODO force finish
@@ -86,6 +91,7 @@ def main():
     parser.add_argument('option', nargs='*', default="")
     parser.add_argument("-d", "--directory", help="target directory")
     parser.add_argument("-o", "--output", help="output directory")
+    parser.add_argument('-t', '--top_level_only', help='generate top level image only', action='store_true')
     args = parser.parse_args()
 
     target_directory = getTargetDirectory(args.directory)
@@ -109,7 +115,7 @@ def main():
             exit()
         pkg_name = args.option[0]
         type_name = args.option[1]
-        generateInstruction(target_directory,output_directory, pkg_name, type_name)
+        generateInstruction(target_directory,output_directory, pkg_name, type_name, args.top_level_only)
 
     else:
         print("command error")
