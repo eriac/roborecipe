@@ -13,6 +13,14 @@ see [xml document](https://github.com/eriac/roborecipe/blob/master/docs/xml_refe
 # usage
 
 ## how to install
+
+### from PyPl (pip)
+```code
+pip install roborecipe
+
+```
+
+### from source
 ```code
 $ git clone https://github.com/eriac/roborecipe.git  
 $ cd roborecipe
