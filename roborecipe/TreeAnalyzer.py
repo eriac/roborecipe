@@ -53,11 +53,11 @@ class TreeAnalyzer:
     def _getDependOrder(self, edge_list):
         graph = nx.DiGraph()
         for e in edge_list:
-            graph.add_edge(e[0], e[1])
-    
+            graph.add_edge(e[1], e[0])
+
         top_comp = self._getItemFromComponentList(self.top_assembly_id)
-        T = nx.dfs_tree(graph, source=top_comp)
-        return list(reversed(list(T)))  
+        T = nx.topological_sort(graph)
+        return list(T)
 
 class ItemWithTransformList:
     def __init__(self, component, transform_list=[]):
