@@ -62,7 +62,14 @@ def generateInstruction(target_directory,output_directory, pkg_name, type_name, 
             s1 = HtmlAssemblyStep()
             s1.seq_no = seq_no+1
             for child in s.child_list:
-                s1.component_list.append(HtmlComponentItem(child.id.pkg_name, child.id.type_name, 1))
+                for item in s1.component_list:
+                    if item.id == ComponentIdentifier(child.id.pkg_name, child.id.type_name):
+                        # +1 quantity
+                        item.increaseQuantity()
+                        break
+                else:
+                    # new component
+                    s1.component_list.append(HtmlComponentItem(child.id.pkg_name, child.id.type_name, 1))
             for view_seq_no in range(len(s.view_list)):
                 image_file = str(comp.id.pkg_name)+'/'+str(comp.id.type_name)+'/asm_'+str(seq_no)+'_'+str(view_seq_no)+'.gif'
                 s1.image_path_list.append(image_file)

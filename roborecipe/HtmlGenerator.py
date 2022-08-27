@@ -15,6 +15,8 @@ class HtmlComponentItem:
     def __init__(self, pkg = "unknown", type = "unknown", quantity = 0):
         self.id = ComponentIdentifier(pkg, type)
         self.quantity = quantity
+    def increaseQuantity(self):
+        self.quantity += 1
 
 class HtmlAssemblyStep:
     def __init__(self):
