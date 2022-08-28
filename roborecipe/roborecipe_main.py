@@ -48,6 +48,8 @@ def generateInstruction(target_directory,output_directory, pkg_name, type_name, 
             p1.description = comp.description
 
             html_generator.part_list.append(p1)
+    ## sort by name
+    html_generator.part_list = sorted(html_generator.part_list, key = lambda x:x.id.getName())
 
     ## asm list
     dl = ta.getDependOrderList()
