@@ -51,6 +51,13 @@ def generateInstruction(target_directory,output_directory, pkg_name, type_name, 
     ## sort by name
     html_generator.part_list = sorted(html_generator.part_list, key = lambda x:x.id.getName())
 
+    ## calcurate total cost
+    total_cost_value = 0.0
+    for p in html_generator.part_list:
+        total_cost_value += p.price_value * p.quantity
+    html_generator.total_cost.value = total_cost_value
+    html_generator.total_cost.unit = "yen" # TODO
+
     ## asm list
     dl = ta.getDependOrderList()
     for comp in dl:

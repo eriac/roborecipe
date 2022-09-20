@@ -25,7 +25,13 @@ class ComponentParser:
 		pp = PackageParser(pkg_path)
 		pkg_name = pp.getName()
 		pkg_dir = pp.getDirPath()
-		tree = ET.parse(str(pathlib.Path(component_path).resolve()))
+		try:
+			tree = ET.parse(str(pathlib.Path(component_path).resolve()))
+		except:
+			RED = '\033[31m'
+			END = '\033[0m'
+			print(RED + "parse error: " + component_path + END)
+			return
 		root = tree.getroot()
 
 		if root.tag == 'part':

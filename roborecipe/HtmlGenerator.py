@@ -30,16 +30,22 @@ class HtmlAssemblyItem:
         self.quantity = 0
         self.step_list = []
 
+class Cost:
+    def __init__(self):
+        self.value = 0
+        self.uni = "yen"
+
 class HtmlGenerator:
     def __init__(self):
         self.template_path = ""
         self.title = "roborecipe"
         self.part_list = []
         self.assembly_list = []
+        self.total_cost = Cost()
     def generate(self, output_path):
         with open(self.template_path) as f:
             template = Template(f.read())
-            ren_s = template.render(tittle=self.title, part_list=self.part_list, assembly_list=self.assembly_list)
+            ren_s = template.render(tittle=self.title, part_list=self.part_list, assembly_list=self.assembly_list, total_cost=self.total_cost)
 
         with open(output_path, mode='w') as f:
             f.write(ren_s)
