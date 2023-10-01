@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>{{data.title}} overview</title>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <h1>{{data.title}} overview</h1>
+        <hr>
+
+        <h1>Purchased Parts (Mechanical)</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>name</td>
+                    <td>quantity</td>
+                    <td>price</td>
+                    <td>desctiption</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in data.mechanical_purchased.list %}
+                <tr>
+                    <td ><a href={{p.name_link}} target="_blank">{{p.name_body}}</a></td>
+                    <td >{{p.quantity}}</td>
+                    <td>{{p.price}}</td>
+                    <td>{{p.description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>total price: {{data.mechanical_purchased.total_price}}</p>
+        <hr>
+
+        <h1>LaserCut Parts List</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>name</td>
+                    <td>quantity</td>
+                    <td>cost</td>
+                    <td>desctiption</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in data.laser_cut.list %}
+                <tr>
+                    <td ><a href={{p.name_link}} target="_blank">{{p.name_body}}</a></td>
+                    <td >{{p.quantity}}</td>
+                    <td>{{p.price}}</td>
+                    <td>{{p.description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>total price: {{data.laser_cut.total_price}}</p>
+        <hr>
+
+        <h1>3DPrint Parts List</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>name</td>
+                    <td>quantity</td>
+                    <td>cost</td>
+                    <td>desctiption</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in data.print_3d.list %}
+                <tr>
+                    <td ><a href={{p.name_link}} target="_blank">{{p.name_body}}</a></td>
+                    <td >{{p.quantity}}</td>
+                    <td>{{p.price}}</td>
+                    <td>{{p.description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>total price: {{data.print_3d.total_price}}</p>
+        <hr>
+
+        <h1>Assembly List</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>name</td>
+                    <td>quantity</td>
+                    <td>desctiption</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in data.assembly.list %}
+                <tr>
+                    <td ><a href={{p.name_link}} target="_blank">{{p.name_body}}</a></td>
+                    <td>{{p.quantity}}</td>
+                    <td>{{p.description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>You need to assemble in the order of the list.</p>
+        <hr>
+
+        <p>powered by roborecipe</p>
+    </body>
+</html>
