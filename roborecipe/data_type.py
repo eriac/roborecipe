@@ -25,7 +25,7 @@ class ComponentCategoryEnum(Enum):
 	# harnes_connection related
 	CABLE = 2
 	BOARD = 3
-	ELECTRONIC_ITEM = 4
+	ELECTRIC_ITEM = 4
 	# rigit body related
 	MECHANICAL_ITEN = 5
 	SCREW = 6
@@ -39,8 +39,16 @@ class ComponentCategory:
 			self.value = ComponentCategoryEnum.ASSEMBLY
 		elif category_str == 'screw':
 			self.value = ComponentCategoryEnum.SCREW
+		elif category_str == 'mechanical':
+			self.value = ComponentCategoryEnum.MECHANICAL_ITEN
 		elif category_str == 'laser_cut':
 			self.value = ComponentCategoryEnum.LASER_CUT
+		elif category_str == 'electric':
+			self.value = ComponentCategoryEnum.ELECTRIC_ITEM
+		elif category_str == '3d_print':
+			self.value = ComponentCategoryEnum.PRINT_3D
+		elif category_str == 'order':
+			self.value = ComponentCategoryEnum.ORDER
 		else:
 			self.value = ComponentCategoryEnum.UNKNOWN
 
@@ -57,8 +65,15 @@ class ComponentCategory:
 
 		if self.value == ComponentCategoryEnum.SCREW:
 			h = 0.66
-		else:
+		elif self.value == ComponentCategoryEnum.LASER_CUT:
 			h = 0.1
+		elif self.value == ComponentCategoryEnum.ELECTRIC_ITEM:
+			h = 0.3
+		elif self.value == ComponentCategoryEnum.PRINT_3D:
+			h = 0.4
+		else:
+			h = 0.0
+			s = 0.0
 
 		rgb = colorsys.hsv_to_rgb(h, s, v)
 		return (rgb[0], rgb[1], rgb[2], 1.0)

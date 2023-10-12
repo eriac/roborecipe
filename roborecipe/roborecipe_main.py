@@ -82,6 +82,19 @@ def generateInstruction(target_directory, output_directory, pkg_name, type_name,
         mpg = MechanicalPartsPageGenerator(item.comp)
         mpg.write(output_directory)
 
+    # part page (mechanical)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.MECHANICAL_ITEN):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = MechanicalPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
     # part page (laser_cut)
     for item in ata.get_quantity_list(ComponentCategoryEnum.LASER_CUT):
         # image
@@ -93,6 +106,45 @@ def generateInstruction(target_directory, output_directory, pkg_name, type_name,
 
         # html
         mpg = ProcessPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (3d_print)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.PRINT_3D):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = ProcessPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (order)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.ORDER):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = ProcessPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (electrical)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.ELECTRIC_ITEM):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = MechanicalPartsPageGenerator(item.comp)
         mpg.write(output_directory)
 
     # part page (assembly)

@@ -25,9 +25,9 @@ class TopPageData:
     def __init__(self):
         self.title = ""
         self.mechanical_purchased = ComponentTable()
-        self.laser_cut = ComponentTable()
-        self.print_3d = ComponentTable()
+        self.process = ComponentTable()
         self.assembly = ComponentTable()
+        self.electric_purchased = ComponentTable()
 
 class TopPageGenerator:
     def __init__(self, comp_id, tree_analyer, dependency_analyzer):
@@ -49,11 +49,35 @@ class TopPageGenerator:
             price = item.comp.distributor_list[0].price
             td.mechanical_purchased.add_line(ComponentTableLine(name_body,name_link,item.quantity,price,item.comp.description))
 
+        for item in self.tree_analyer.get_quantity_list(ComponentCategoryEnum.MECHANICAL_ITEN):
+            name_body = item.comp.id.getName()
+            name_link = item.comp.id.getName() + '.html'
+            price = item.comp.distributor_list[0].price
+            td.mechanical_purchased.add_line(ComponentTableLine(name_body,name_link,item.quantity,price,item.comp.description))
+
         for item in self.tree_analyer.get_quantity_list(ComponentCategoryEnum.LASER_CUT):
             name_body = item.comp.id.getName()
             name_link = item.comp.id.getName() + '.html'
             price = item.comp.process.cost
-            td.laser_cut.add_line(ComponentTableLine(name_body,name_link,item.quantity,price,item.comp.description))
+            td.process.add_line(ComponentTableLine(name_body,name_link,item.quantity,price,item.comp.description))
+
+        for item in self.tree_analyer.get_quantity_list(ComponentCategoryEnum.PRINT_3D):
+            name_body = item.comp.id.getName()
+            name_link = item.comp.id.getName() + '.html'
+            price = item.comp.process.cost
+            td.process.add_line(ComponentTableLine(name_body,name_link,item.quantity,price,item.comp.description))
+
+        for item in self.tree_analyer.get_quantity_list(ComponentCategoryEnum.ORDER):
+            name_body = item.comp.id.getName()
+            name_link = item.comp.id.getName() + '.html'
+            price = item.comp.process.cost
+            td.process.add_line(ComponentTableLine(name_body,name_link,item.quantity,price,item.comp.description))
+
+        for item in self.tree_analyer.get_quantity_list(ComponentCategoryEnum.ELECTRIC_ITEM):
+            name_body = item.comp.id.getName()
+            name_link = item.comp.id.getName() + '.html'
+            price = item.comp.distributor_list[0].price
+            td.electric_purchased.add_line(ComponentTableLine(name_body,name_link,item.quantity,price,item.comp.description))
 
         for item in self.dependency_analyzer.get_list():
             name_body = item.comp.id.getName()

@@ -2,6 +2,7 @@
 from jinja2 import Template
 import pathlib
 from roborecipe.data_type import * 
+import collections
 
 class MechanicalPartsPageData:
     def __init__(self):
@@ -99,10 +100,14 @@ class AssemblyPageGenerator:
         for step_no, step in enumerate(self.comp.procedure_list):
             step_data = MechanicalPartsStepItem()
             step_data.seq_no = step_no
+            comp_id_list = []
             for c in step.component_list:
+                comp_id_list.append(c.id)
+            quantity_list = collections.Counter(comp_id_list)
+            for comp_id in quantity_list:
                 comp_data = MechanicalPartsComponentItem()
-                comp_data.name = c.id.getName()
-                comp_data.quantity = 1
+                comp_data.name = comp_id.getName()
+                comp_data.quantity = quantity_list[comp_id]
                 step_data.component_list.append(comp_data)
             view_size = len(step.view_list)
             for i in range(view_size):

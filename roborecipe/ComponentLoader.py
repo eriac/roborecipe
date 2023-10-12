@@ -23,6 +23,14 @@ class ComponentListLoader:
 				self.component_list.append(AssemblyData(path_item, yaml_obj))			
 			elif category_str == 'laser_cut':
 				self.component_list.append(LaserData(path_item, yaml_obj))			
+			elif category_str == 'electric':
+				self.component_list.append(ScrewData(path_item, yaml_obj)) # TODO
+			elif category_str == 'mechanical':
+				self.component_list.append(ScrewData(path_item, yaml_obj)) # TODO
+			elif category_str == '3d_print':
+				self.component_list.append(LaserData(path_item, yaml_obj)) # TODO
+			elif category_str == 'order':
+				self.component_list.append(LaserData(path_item, yaml_obj)) # TODO
 			else:
 				RED = '\033[31m'
 				END = '\033[0m'

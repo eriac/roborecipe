@@ -134,7 +134,9 @@ class AssemblyTreeAnalyzer:
         part_list = []
         for comp in quantity_dir:
             part_list.append(QuantityItem(comp, quantity_dir[comp]))
-        return part_list
+        def key_func(obj):
+            return obj.comp.id.getName()
+        return sorted(part_list, key=key_func)
 
     def get_step_view_list(self):
         return self.step_view_list

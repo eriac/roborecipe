@@ -57,15 +57,34 @@ class AssemblyImageGenerator:
         return self.comp.id.pkg_name
 
     def write(self, output_base_dir):
-        mm_to_unit = 0.01
         config = ViewerConfig()
         config.set_window_size(800, 800)
         config.enable_shadow(True)
         config.show_axes(False)
         config.show_grid(False)
         viewer = Viewer(window_type='offscreen', config=config)
-        viewer.append_group('root')
+        viewer.enable_lights(False)
 
+        #### change lights ####
+        viewer._app._lights = [
+            viewer._app._make_light_ambient((0.2, 0.2, 0.2)),
+            viewer._app._make_light_direct(
+                1, (0.3, 0.4, 0.4), pos=(8.0, 8.0, 10.0)),
+            viewer._app._make_light_direct(
+                2, (0.4, 0.3, 0.4), pos=(8.0, -8.0, 10.0)),
+            viewer._app._make_light_direct(
+                3, (0.4, 0.4, 0.3), pos=(-8.0, 8.0, 10.0)),
+            viewer._app._make_light_direct(
+                4, (0.3, 0.3, 0.4), pos=(-8.0, -8.0, 10.0)),
+            viewer._app._make_light_direct(
+                5, (0.8, 0.8, 0.8), pos=(0.0, 0.0, -10.0)),
+        ]
+        viewer._app._lights_mask = [True, True, True, True, True, True]
+        viewer.enable_lights(True)
+        #### end change lights ####
+
+        viewer.append_group('root')
+        mm_to_unit = 0.01
         max_step = self._get_max_step()
 
         self.image_list = []
