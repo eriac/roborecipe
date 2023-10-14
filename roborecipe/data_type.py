@@ -23,7 +23,7 @@ class ComponentCategoryEnum(Enum):
 	# to make instruction steps
 	ASSEMBLY = 1
 	# harnes_connection related
-	CABLE = 2
+	HARNESS = 2
 	BOARD = 3
 	ELECTRIC_ITEM = 4
 	# rigit body related
@@ -49,6 +49,10 @@ class ComponentCategory:
 			self.value = ComponentCategoryEnum.PRINT_3D
 		elif category_str == 'order':
 			self.value = ComponentCategoryEnum.ORDER
+		elif category_str == 'board':
+			self.value = ComponentCategoryEnum.BOARD
+		elif category_str == 'harness':
+			self.value = ComponentCategoryEnum.HARNESS
 		else:
 			self.value = ComponentCategoryEnum.UNKNOWN
 
@@ -135,6 +139,30 @@ class LaserData:
 
 		self.rigit_body = RigitBody(path_item.pkg_base_path, yaml_obj['rigit_body'])
 		self.process = Process(path_item.pkg_base_path, yaml_obj['process'])
+
+class Harness:
+	def __init__(self, pkg_base_path, yaml_obj):
+		self.cost = yaml_obj['cost']
+		self.line_kind = yaml_obj['line']['kind']
+		self.line_length = yaml_obj['line']['length']
+		self.line_name_list = yaml_obj['line']['names']
+		self.end1 = HarnessEnd(yaml_obj['end1'])
+		self.end2 = HarnessEnd(yaml_obj['end2'])
+
+class HarnessEnd:
+	def __init__(self, yaml_obj):
+		self.family = yaml_obj['family']
+		self.model = yaml_obj['model']
+		self.assign_list = yaml_obj['assign']
+
+class HarnessData:
+	def __init__(self, path_item, yaml_obj):
+		self.id = ComponentIdentifier(path_item.pkg_name, yaml_obj['name'])
+		self.category = ComponentCategory(yaml_obj['category'])
+		self.description = yaml_obj['description']
+		self.pkg_base_path = path_item.pkg_base_path
+		self.m_datetime = path_item.m_datetime
+		self.harness = Harness(path_item.pkg_base_path, yaml_obj['harness'])
 
 class AssemblyData:
 	def __init__(self, path_item, yaml_obj):

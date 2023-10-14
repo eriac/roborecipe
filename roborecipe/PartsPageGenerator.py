@@ -68,6 +68,38 @@ class ProcessPartsPageGenerator:
         with open(output_path, mode='w') as f:
             f.write(rendered_str)
 
+# Harness
+class HarnessPageData:
+    def __init__(self):
+        self.title = ""
+        self.description = ""
+        self.table_title = HarnessTableLineData()
+        self.table_content_list = []
+
+class HarnessTableLineData:
+    def __init__(self, line = '', end1 = '', end2 = ''):
+        self.line = line
+        self.end1 = end1
+        self.end2 = end2
+
+class HarnessPageGenerator:
+    def __init__(self, comp):
+        self.comp = comp
+        template_filepth = pathlib.Path(__file__).parent / 'templates' / 'harness.html'
+        file = open(template_filepth)
+        self.template = Template(file.read())
+
+    def write(self, output_base_dir):
+        data = HarnessPageData()
+        data.title = self.comp.id.getName() 
+        data.description = self.comp.description
+        rendered_str = self.template.render(data = data)
+
+        output_path = str(output_base_dir) + '/' + self.comp.id.pkg_name + '/' + self.comp.id.type_name + '.html'
+        print('write html ' + output_path)
+        with open(output_path, mode='w') as f:
+            f.write(rendered_str)
+
 # assembly
 class AssemblyPageData:
     def __init__(self):

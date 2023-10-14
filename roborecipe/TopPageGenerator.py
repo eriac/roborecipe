@@ -79,6 +79,12 @@ class TopPageGenerator:
             price = item.comp.distributor_list[0].price
             td.electric_purchased.add_line(ComponentTableLine(name_body,name_link,item.quantity,price,item.comp.description))
 
+        for item in self.tree_analyer.get_quantity_list(ComponentCategoryEnum.BOARD):
+            name_body = item.comp.id.getName()
+            name_link = item.comp.id.getName() + '.html'
+            price = item.comp.process.cost
+            td.electric_purchased.add_line(ComponentTableLine(name_body,name_link,item.quantity,price,item.comp.description))
+
         for item in self.dependency_analyzer.get_list():
             name_body = item.comp.id.getName()
             name_link = item.comp.id.getName() + '.html'

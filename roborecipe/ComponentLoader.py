@@ -31,6 +31,10 @@ class ComponentListLoader:
 				self.component_list.append(LaserData(path_item, yaml_obj)) # TODO
 			elif category_str == 'order':
 				self.component_list.append(LaserData(path_item, yaml_obj)) # TODO
+			elif category_str == 'board':
+				self.component_list.append(LaserData(path_item, yaml_obj)) # TODO
+			elif category_str == 'harness':
+				self.component_list.append(HarnessData(path_item, yaml_obj)) # TODO			
 			else:
 				RED = '\033[31m'
 				END = '\033[0m'
