@@ -45,6 +45,7 @@ def output_list_data(target_directory):
 
 
 def generateInstruction(target_directory, output_directory, pkg_name, type_name, top_level_only):
+    # clear_panda3d_cashe()
     print(pkg_name, type_name)
 
     dl = DirectoryLoader(target_directory)
@@ -145,6 +146,19 @@ def generateInstruction(target_directory, output_directory, pkg_name, type_name,
 
         # html
         mpg = MechanicalPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (board)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.BOARD):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = ProcessPartsPageGenerator(item.comp)
         mpg.write(output_directory)
 
     # part page (assembly)
