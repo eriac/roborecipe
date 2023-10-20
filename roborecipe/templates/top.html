@@ -32,7 +32,7 @@
         <p>total price: {{data.mechanical_purchased.total_price}}</p>
         <hr>
 
-        <h1>Process Parts List</h1>
+        <h1>Fabrication Parts (Mechanical)</h1>
         <table border="1">
             <thead>
                 <tr>
@@ -43,7 +43,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for p in data.process.list %}
+                {% for p in data.mechanical_fabrication.list %}
                 <tr>
                     <td ><a href={{p.name_link}} target="_blank">{{p.name_body}}</a></td>
                     <td >{{p.quantity}}</td>
@@ -53,7 +53,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <p>total price: {{data.process.total_price}}</p>
+        <p>total price: {{data.mechanical_fabrication.total_price}}</p>
         <hr>
 
         <h1>Purchased Parts (Electric)</h1>
@@ -78,6 +78,30 @@
             </tbody>
         </table>
         <p>total price: {{data.electric_purchased.total_price}}</p>
+        <hr>
+
+        <h1>Boards and Harness</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>name</td>
+                    <td>quantity</td>
+                    <td>cost</td>
+                    <td>desctiption</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in data.electric_fabrication.list %}
+                <tr>
+                    <td ><a href={{p.name_link}} target="_blank">{{p.name_body}}</a></td>
+                    <td >{{p.quantity}}</td>
+                    <td>{{p.price}}</td>
+                    <td>{{p.description}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>total price: {{data.electric_fabrication.total_price}}</p>
         <hr>
 
         <h1>Assembly List</h1>
