@@ -1,7 +1,8 @@
 version: 0.0
 name: pan_10
 category: screw
-description: sems screw is recommended
+common:
+  description: sems screw is recommended
 
 rigit_body:
   mesh:

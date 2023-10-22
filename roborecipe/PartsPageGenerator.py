@@ -24,7 +24,8 @@ class MechanicalPartsPageGenerator:
         data = MechanicalPartsPageData()
         data.title = self.comp.id.getName() 
         data.overwiew_image = 'images/' + self.comp.id.type_name + '_rigid_body.png'
-        data.description = self.comp.description
+        data.image_list = self.comp.common.image_list
+        data.description = self.comp.common.description
         data.product_name = self.comp.product.name
         data.product_url = self.comp.product.url
         data.distributor_list = self.comp.distributor_list
@@ -41,6 +42,7 @@ class ProcessPartsPartsPageData:
     def __init__(self):
         self.title = ""
         self.overwiew_image = ""
+        self.image_list = []
         self.description = ""
         self.process_data_file = ""
         self.process_material = ""
@@ -57,7 +59,8 @@ class ProcessPartsPageGenerator:
         data = ProcessPartsPartsPageData()
         data.title = self.comp.id.getName() 
         data.overwiew_image = 'images/' + self.comp.id.type_name + '_rigid_body.png'
-        data.description = self.comp.description
+        data.image_list = self.comp.common.image_list
+        data.description = self.comp.common.description
         data.process_data = self.comp.process.data_filepath
         data.process_material = self.comp.process.material
         data.process_cost = self.comp.process.cost
@@ -92,7 +95,7 @@ class HarnessPageGenerator:
     def write(self, output_base_dir):
         data = HarnessPageData()
         data.title = self.comp.id.getName() 
-        data.description = self.comp.description
+        data.description = self.comp.common.description
         rendered_str = self.template.render(data = data)
 
         output_path = str(output_base_dir) + '/' + self.comp.id.pkg_name + '/' + self.comp.id.type_name + '.html'
@@ -128,7 +131,8 @@ class AssemblyPageGenerator:
     def write(self, output_base_dir):
         data = AssemblyPageData()
         data.title = self.comp.id.getName()
-        data.description = self.comp.description
+        data.image_list = self.comp.common.image_list
+        data.description = self.comp.common.description
         for step_no, step in enumerate(self.comp.procedure_list):
             step_data = MechanicalPartsStepItem()
             step_data.seq_no = step_no

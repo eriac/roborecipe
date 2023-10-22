@@ -1,7 +1,9 @@
 version: 0.0
 category: laser_cut
 name: bar_plate
-description: stand plate
+
+common:
+  description: stand plate
 
 rigit_body:
   mesh:

@@ -82,6 +82,13 @@ class ComponentCategory:
 		rgb = colorsys.hsv_to_rgb(h, s, v)
 		return (rgb[0], rgb[1], rgb[2], 1.0)
 
+class ComponentCommon:
+	def __init__(self, pkg_base_path, yaml_obj):
+		self.description = yaml_obj['description']
+		self.image_list = []
+		if 'image_list' in yaml_obj:
+			self.image_list = yaml_obj['image_list']
+
 class RigitBody:
 	def __init__(self, pkg_base_path, yaml_obj):
 		self.mesh_filepath = pkg_base_path + '/' + yaml_obj['mesh']['path']
@@ -117,9 +124,10 @@ class ScrewData:
 	def __init__(self, path_item, yaml_obj):
 		self.id = ComponentIdentifier(path_item.pkg_name, yaml_obj['name'])
 		self.category = ComponentCategory(yaml_obj['category'])
-		self.description = yaml_obj['description']
 		self.pkg_base_path = path_item.pkg_base_path
 		self.m_datetime = path_item.m_datetime
+		# common
+		self.common = ComponentCommon(path_item.pkg_base_path, yaml_obj['common'])
 		# body related
 		self.rigit_body = RigitBody(path_item.pkg_base_path, yaml_obj['rigit_body'])
 		# product
@@ -133,10 +141,10 @@ class LaserData:
 	def __init__(self, path_item, yaml_obj):
 		self.id = ComponentIdentifier(path_item.pkg_name, yaml_obj['name'])
 		self.category = ComponentCategory(yaml_obj['category'])
-		self.description = yaml_obj['description']
 		self.pkg_base_path = path_item.pkg_base_path
 		self.m_datetime = path_item.m_datetime
 
+		self.common = ComponentCommon(path_item.pkg_base_path, yaml_obj['common'])
 		self.rigit_body = RigitBody(path_item.pkg_base_path, yaml_obj['rigit_body'])
 		self.process = Process(path_item.pkg_base_path, yaml_obj['process'])
 
@@ -168,10 +176,10 @@ class AssemblyData:
 	def __init__(self, path_item, yaml_obj):
 		self.id = ComponentIdentifier(path_item.pkg_name, yaml_obj['name'])
 		self.category = ComponentCategory(yaml_obj['category'])
-		self.description = yaml_obj['description']
 		self.pkg_base_path = path_item.pkg_base_path
 		self.m_datetime = path_item.m_datetime
 
+		self.common = ComponentCommon(path_item.pkg_base_path, yaml_obj['common'])
 		self.procedure_list = []
 		for step in yaml_obj['procedure_list']:
 			self.procedure_list.append(AssemblyStepData(step))

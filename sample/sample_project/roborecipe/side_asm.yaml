@@ -1,7 +1,8 @@
-version: 0.0
 name: side_asm
 category: assembly
-description: side stand assembly
+
+common:
+  description: side stand assembly
 
 procedure_list:
   - type: attach

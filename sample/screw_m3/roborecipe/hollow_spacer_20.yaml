@@ -1,7 +1,8 @@
 version: 0.0
 category: screw
 name: hollow_spacer_20
-description: screw spacer
+common:
+  description: screw spacer
 
 rigit_body:
   mesh: 

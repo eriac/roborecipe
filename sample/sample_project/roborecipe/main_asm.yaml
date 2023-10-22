@@ -1,7 +1,9 @@
 version: 0.0
 name: main_asm
 category: assembly
-description: main assembly
+
+common:
+  description: main assembly
 
 procedure_list:
   - type: attach

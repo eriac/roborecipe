@@ -10,6 +10,9 @@
 
         <h1>overview</h1>
         <img src="{{data.overwiew_image}}" width="500">
+        {% for i in data.image_list %}
+        <img src="{{i}}" width="500">
+        {% endfor %}
         <p>{{data.description}}</p>
 
         <h1>detail</h1>
