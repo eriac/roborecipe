@@ -167,9 +167,10 @@ class HarnessData:
 	def __init__(self, path_item, yaml_obj):
 		self.id = ComponentIdentifier(path_item.pkg_name, yaml_obj['name'])
 		self.category = ComponentCategory(yaml_obj['category'])
-		self.description = yaml_obj['description']
 		self.pkg_base_path = path_item.pkg_base_path
 		self.m_datetime = path_item.m_datetime
+
+		self.common = ComponentCommon(path_item.pkg_base_path, yaml_obj['common'])
 		self.harness = Harness(path_item.pkg_base_path, yaml_obj['harness'])
 
 class AssemblyData:
