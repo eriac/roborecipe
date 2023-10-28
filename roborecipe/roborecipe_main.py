@@ -12,9 +12,17 @@ from roborecipe.DirectorySearch import *
 from roborecipe.HtmlGenerator import *
 from roborecipe.ViewListGenerator import *
 
-def getTargetDirectory(target):
+# newlib
+from roborecipe.DirectoryLoader import * 
+from roborecipe.AssemblyAnalyzer import * 
+from roborecipe.TopPageGenerator import * 
+from roborecipe.PartsPageGenerator import *
+from roborecipe.PartImageGenerator import *
+
+
+def getTargetDirectory(target, default = ''):
     if target is None:
-        output = pathlib.Path('').resolve()
+        output = pathlib.Path(default).resolve()
     else:
         output = pathlib.Path(str(target)).resolve()
     return output
@@ -22,83 +30,153 @@ def getTargetDirectory(target):
 def getCurrentDirectory():
     return str(pathlib.Path(__file__+'/..').resolve())
 
-def generateInstruction(target_directory,output_directory, pkg_name, type_name, top_level_only):
-    os.makedirs(output_directory, exist_ok=True)
+def output_list_data(target_directory):
+    dl = DirectoryLoader(target_directory)
+    component_path_list = []
+    for component in dl.get_component_path_list(): 
+        component_path_list.append(component)
 
-    ds = DirectorySearch(target_directory)
-    path_pair_list = ds.getComponentPathPairList()
-    component_list = ComponentListParser(path_pair_list).getList()
-    ta = TreeAnalyzer(component_list, ComponentIdentifier(pkg_name, type_name))
+    cll = ComponentListLoader()
+    for path_item in component_path_list:
+        cll.load(path_item)
 
-    html_generator = HtmlGenerator()
-    html_generator.template_path = getCurrentDirectory() +'/templates/index.html'
-    html_generator.title = ComponentIdentifier(pkg_name, type_name).getName()
+    for comp in cll.getList():
+        print(comp.id.getName())
 
-    ## part list
-    ql = ta.getQuantityList()
-    for comp in ql:
-        if type(comp) is DataPart:
-            p1 = HtmlParchageItem()
-            p1.id = comp.id
-            p1.quantity = ql[comp]
-            p1.price_value = comp.price_value
-            p1.price_unit = comp.price_unit
 
-            p1.distributor = comp.distributor
-            p1.description = comp.description
+def generateInstruction(target_directory, output_directory, pkg_name, type_name, top_level_only):
+    # clear_panda3d_cashe()
+    print(pkg_name, type_name)
 
-            html_generator.part_list.append(p1)
-    ## sort by name
-    html_generator.part_list = sorted(html_generator.part_list, key = lambda x:x.id.getName())
+    dl = DirectoryLoader(target_directory)
+    out_ds = OutputDirectorySearch(output_directory)
+    component_path_list = []
+    for component in dl.get_component_path_list(): 
+        component_path_list.append(component)
 
-    ## calcurate total cost
-    total_cost_value = 0.0
-    for p in html_generator.part_list:
-        total_cost_value += p.price_value * p.quantity
-    html_generator.total_cost.value = total_cost_value
-    html_generator.total_cost.unit = "yen" # TODO
+    cll = ComponentListLoader()
+    for path_item in component_path_list:
+        cll.load(path_item)
 
-    ## asm list
-    dl = ta.getDependOrderList()
-    for comp in dl:
-        if type(comp) is not DataAssembly:
-            continue
-        a1 = HtmlAssemblyItem()
-        a1.name = comp.id.getName()
-        a1.quantity = ql[comp]
-        seq_no = 0
-        for s in comp.step_list:
-            s1 = HtmlAssemblyStep()
-            s1.seq_no = seq_no+1
-            for child in s.child_list:
-                for item in s1.component_list:
-                    if item.id == ComponentIdentifier(child.id.pkg_name, child.id.type_name):
-                        # +1 quantity
-                        item.increaseQuantity()
-                        break
-                else:
-                    # new component
-                    s1.component_list.append(HtmlComponentItem(child.id.pkg_name, child.id.type_name, 1))
-            for view_seq_no in range(len(s.view_list)):
-                image_file = str(comp.id.pkg_name)+'/'+str(comp.id.type_name)+'/asm_'+str(seq_no)+'_'+str(view_seq_no)+'.gif'
-                s1.image_path_list.append(image_file)
-            a1.step_list.append(s1)
-            seq_no += 1
-        html_generator.assembly_list.append(a1) 
+    top_assembly_id = ComponentIdentifier(pkg_name, type_name)
+    ata = AssemblyTreeAnalyzer(cll, top_assembly_id)
+    ada = AssemblyDependencyAnalyzer(cll, top_assembly_id)
 
-    html_generator.generate(str(output_directory)+"/index.html")
+    # top page
+    tg = TopPageGenerator(top_assembly_id, ata, ada)
+    tg.write(output_directory)
 
-    ## asm image
-    rt = RenderTree(component_list, dl)
+    # package copy
+    used_pkg_name_set = ada.get_pkg_name_set()
+    dl.copy_resouces_dir(used_pkg_name_set, output_directory)
 
-    if top_level_only:
-        vlg = ViewListGenerator([dl[-1],], rt) # render top level asm only
-    else:
-        vlg = ViewListGenerator(dl, rt)
+    # part page (screw)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.SCREW):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
 
-    render_view_list = vlg.GetViewList(str(output_directory))
-    ig = ImageGenerator(sys.argv)
-    ig.renderViewList(render_view_list) # TODO force finish
+        # html
+        mpg = MechanicalPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (mechanical)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.MECHANICAL_ITEN):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = MechanicalPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (laser_cut)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.LASER_CUT):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = ProcessPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (3d_print)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.PRINT_3D):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = ProcessPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (order)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.ORDER):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = ProcessPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (electrical)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.ELECTRIC_ITEM):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = MechanicalPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (board)
+    for item in ata.get_quantity_list(ComponentCategoryEnum.BOARD):
+        # image
+        mpig = MechanicalPartsImageGenerator(item.comp)
+        if out_ds.need_update_image(mpig.get_pkg_name(), mpig.get_m_datetime()):
+            mpig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        mpg = ProcessPartsPageGenerator(item.comp)
+        mpg.write(output_directory)
+
+    # part page (assembly)
+    for item in ada.get_list():
+        # image
+        ata = AssemblyTreeAnalyzer(cll, item.comp.id)
+        aig = AssemblyImageGenerator(item.comp, ata.get_position_list(), ata.get_step_view_list())
+        asm_m_datetime = AssemblyDependencyAnalyzer(cll, item.comp.id).get_m_datetime()
+
+        if out_ds.need_update_image(aig.get_pkg_name(), asm_m_datetime):
+            aig.write(output_directory)
+        else:
+            print('skip image')
+
+        # html
+        apg = AssemblyPageGenerator(item.comp)
+        apg.write(output_directory)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -110,19 +188,13 @@ def main():
     parser.add_argument('-t', '--top_level_only', help='generate top level image only', action='store_true')
     args = parser.parse_args()
 
-    target_directory = getTargetDirectory(args.directory)
+    target_directory = getTargetDirectory(args.directory, '')
     print('target directory: ' + str(target_directory))
-    output_directory = getTargetDirectory(args.output)
-    print('target directory: ' + str(output_directory))
+    output_directory = getTargetDirectory(args.output, 'out')
+    print('output directory: ' + str(output_directory))
 
     if args.command == "list":
-        ds = DirectorySearch(target_directory)
-        print("### package ###")
-        for p in ds.getPackagePathList():
-            print(p)
-        print("### component ###")
-        for c in ds.getComponentPathPairList():
-            print(c[1])
+        output_list_data(target_directory)
 
     elif args.command == "generate":
         print("### generate ###")

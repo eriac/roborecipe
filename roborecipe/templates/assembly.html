@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>{{data.tittle}} detail</title>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <h1>{{data.tittle}}</h1>
+        <hr>
+
+        <h1>overview</h1>
+        {% for i in data.image_list %}
+        <img src="{{i}}" width="500">
+        {% endfor %}
+        <p>{{data.description}}</p>
+
+        <h1>detail</h1>
+
+        {% for s in data.step_list %}
+        <h3>step {{s.seq_no}}</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>name</td>
+                    <td>quantity</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in s.component_list %}
+                <tr>
+                    <td >{{c.name}}</td>
+                    <td >{{c.quantity}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% for i in s.image_path_list %}
+        <img src="{{i}}" width="500">
+        {% endfor %}
+        <hr>
+
+        {% endfor %}
+
+        <p>powered by roborecipe</p>
+    </body>
+</html>

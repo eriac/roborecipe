@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>{{data.title}} detail</title>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <h1>{{data.title}} detail</h1>
+        <hr>
+
+        <h1>overview</h1>
+        <img src="{{data.overwiew_image}}" width="500">
+        {% for i in data.image_list %}
+        <img src="{{i}}" width="500">
+        {% endfor %}
+        <p>{{data.description}}</p>
+
+        <h1>detail</h1>
+
+        <h2>process</h2>
+        <ul>
+            <li><a href="{{data.process_data}}">original data</a></li>
+            <li>material: {{data.process_material}}</li>
+            <li>cost: {{data.process_cost}}</li>
+        </ul>        
+        <hr>
+
+        <p>powered by roborecipe</p>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+version: 0.0
+category: screw
+name: hollow_spacer_20
+common:
+  description: screw spacer
+
+rigit_body:
+  mesh: 
+    path: meshes/m3_hollow_spacer_20.stl
+  view:
+    from: {x: 100, y: 0, z: 50}
+    to: {x: 0, y: 0, z: -2}
+
+product:
+  name: JIS B1111
+  url: https://kikakurui.com/b1/B1111-2017-01.html
+distributor:
+  - name: TBD
+    url: TBD
+    price: 20

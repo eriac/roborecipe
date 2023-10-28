@@ -1,0 +1,19 @@
+version: 0.0
+category: laser_cut
+name: bar_plate
+
+common:
+  description: stand plate
+
+rigit_body:
+  mesh:
+    path: meshes/rr_bar_plate.stl
+  view:
+    from: {x: 100, y: 0, z: 50}
+    to: {x: 0, y: 0, z: -2}
+
+process:
+  data:
+    path: resources/rr_bar_plate.dxf
+  material: mdf_4mm
+  cost: 100

@@ -27,4 +27,5 @@ class DirectorySearch:
 
 if __name__ == '__main__':
     ds = DirectorySearch('../sample')
-    print(ds.getComponentPathPairList())
+    for component in ds.getComponentPathPairList(): 
+        print(component)

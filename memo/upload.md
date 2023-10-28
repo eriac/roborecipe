@@ -1,14 +1,20 @@
+# update version
+
+modify '__version__' in '__init__.py'
+
 # build
 
 ```shell
 pip install twine
 pip install wheel
 
-python setup.py sdist
-python setup.py bdist_wheel
+python3 setup.py sdist
+python3 setup.py bdist_wheel
 ```
 
 # setup
+create ~/.pypirc
+
 ```txt:.pypirc
 [distutils]
 index-servers =
@@ -26,9 +32,13 @@ username: [name]
 password: [pass]
 ```
 
-# upload
+# upload test site
 ```shell
 twine upload --repository testpypi dist/*
+```
+
+# upload pypi site
+```shell
 twine upload --repository pypi dist/*
 ```
 

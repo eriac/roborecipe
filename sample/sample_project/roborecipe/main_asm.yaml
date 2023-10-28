@@ -1,0 +1,29 @@
+version: 0.0
+name: main_asm
+category: assembly
+
+common:
+  description: main assembly
+
+procedure_list:
+  - type: attach
+    view_list:
+      - {from: {x: 120, y: 20, z: 50}, to: {x: 0, y: 0, z: 0}, angle: 30}
+    component_list:
+      - {pkg: sample_project, type: base_plate, origin: {x: 0, y: 0, z: 0, roll: 0, pitch: 0, yaw: 90}, move: {x: 0, y: 0, z: 0}}
+  - type: attach
+    view_list:
+      - {from: {x: 120, y: 20, z: 50}, to: {x: 0, y: 0, z: 0}, angle: 30}
+      - {from: {x: 120, y: 20, z: -50}, to: {x: 0, y: 0, z: 0}, angle: 30}
+    component_list:
+      - {pkg: sample_project, type: side_asm, origin: {x: 0, y: 20, z: 24, roll: 0, pitch: 0, yaw: 0}, move: {x: 0, y: 0, z: 10}}
+      - {pkg: screw_m3, type: pan_10, origin: {x: 10, y: 20, z: 0, roll: 180, pitch: 0, yaw: 0}, move: {x: 0, y: 0, z: -15}}
+      - {pkg: screw_m3, type: pan_10, origin: {x: -10, y: 20, z: 0, roll: 180, pitch: 0, yaw: 0}, move: {x: 0, y: 0, z: -15}}
+  - type: attach
+    view_list:
+      - {from: {x: 120, y: 20, z: 50}, to: {x: 0, y: 0, z: 0}, angle: 30}
+      - {from: {x: 120, y: 20, z: -50}, to: {x: 0, y: 0, z: 0}, angle: 30}
+    component_list:
+      - {pkg: sample_project, type: side_asm, origin: {x: 0, y: -20, z: 24, roll: 0, pitch: 0, yaw: 0}, move: {x: 0, y: 0, z: 10}}
+      - {pkg: screw_m3, type: pan_10, origin: {x: 10, y: -20, z: 0, roll: 180, pitch: 0, yaw: 0}, move: {x: 0, y: 0, z: -15}}
+      - {pkg: screw_m3, type: pan_10, origin: {x: -10, y: -20, z: 0, roll: 180, pitch: 0, yaw: 0}, move: {x: 0, y: 0, z: -15}}

@@ -1,0 +1,18 @@
+category: laser_cut
+name: base_plate
+
+common:
+  description: base plate
+
+rigit_body:
+  mesh:
+    path: meshes/rr_base_plate.stl
+  view:
+    from: {x: 20, y: 120, z: 70}
+    to: {x: 0, y: 0, z: -2}
+
+process:
+  data:
+    path: resources/rr_bar_plate.dxf
+  material: mdf_4mm
+  cost: 100
