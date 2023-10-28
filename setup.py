@@ -12,6 +12,7 @@ setuptools.setup(
         "jinja2",
         "pillow",
         "networkx",
+        "panda3d-viewer",
     ],
     entry_points={
         'console_scripts': [
